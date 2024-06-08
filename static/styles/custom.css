@@ -1,0 +1,61 @@
+
+.messages {
+    position: fixed;
+    top: 10px; /* Adjust this value to change the vertical position */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050; /* Ensure it's above other content */
+    display: flex;
+    flex-direction: row; /* Display messages in a row */
+    gap: 10px; /* Space between messages */
+    max-width: 90%; /* Ensure the messages don’t exceed the viewport width */
+    overflow-x: auto; /* Handle overflow if there are many alerts */
+    padding: 10px; /* Add padding around the container */
+    box-sizing: border-box; /* Ensure padding is included in the total width */
+    list-style-type: none; /* Remove default list styles */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+.alert {
+    animation: fade-in 0.75s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: rgba(128, 128, 128, 0.7); /* Updated for transparency */
+    min-width: 350px; /* Minimum width for alerts */
+    padding: 15px; /* Add padding inside the alerts */
+    color: #fff; /* Ensure text is readable on a semi-transparent background */
+    font-size: 16px; /* Adjust font size for readability */
+    box-sizing: border-box; /* Ensure padding is included in the total width */
+    position: relative; /* Position relative to place close button */
+    display: flex; /* Use flexbox to align items */
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+}
+
+.alert .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff; /* Close sign color */
+    cursor: pointer;
+    font-size: 20px; /* Adjust size for visibility */
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+    padding: 2  ; /* Remove padding */
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.alert.fade-out {
+    animation: fade-out 0.75s forwards;
+}
+

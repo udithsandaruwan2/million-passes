@@ -1,0 +1,195 @@
+{% extends 'main-web-non-sidebar.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<nav class="navbar navbar-light">
+    <div class="container d-block">
+        <a href="{% url 'profiles' %}"><i class="bi bi-chevron-left"></i></a>
+        <a class="navbar-brand ms-4" href="{% url 'profiles' %}">
+            <img src="{% static 'ui-kit/assets/compiled/png/logo.png' %}" alt="EventArc">
+        </a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="column column--1of3">
+                            <div class="card text-center">
+                                <div class="card__body dev">
+                                    <img class="avatar avatar-sm mt-4" src="{{ profile.profile_image.url }}" alt="Dennis Ivanov Avatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 1px solid #fff;" />
+                                    <h2 class="card-title mt-4">{{profile.name}}</h2>
+                                    <p>{{profile.short_intro}}r</p>
+                                    <p>{{profile.location}}</p>
+                                    
+                                    <div class="m-1">
+
+                                        {% if profile.social_github %}
+
+                                        <a href="{{profile.social_github}}" target="_blank" class="btn icon icon-left btn-light" style="background-color: transparent; border: none;">
+                                            <i class="bi bi-github" style="font-size: 30px; color: #5ddab4;"></i>
+                                        </a>
+
+                                        {% endif %}
+
+                                        {% if profile.social_x %}
+
+                                        <a href="#" class="btn icon icon-left btn-light" style="background-color: transparent; border: none;">
+                                            <i class="bi bi-twitter-x" style="font-size: 30px; color: #5ddab4;"></i>
+                                        </a>
+
+                                        {% endif %}
+
+                                        {% if profile.social_linkedin %}
+
+                                        <a href="#" class="btn icon icon-left btn-light" style="background-color: transparent; border: none;">
+                                            <i class="bi bi-linkedin" style="font-size: 30px; color: #5ddab4;"></i>
+                                        </a>
+
+                                        {% endif %}
+
+                                        {% if profile.social_youtube %}
+
+                                        <a href="#" class="btn icon icon-left btn-light" style="background-color: transparent; border: none;">
+                                            <i class="bi bi-youtube" style="font-size: 30px; color: #5ddab4;"></i>
+                                        </a>
+
+                                        {% endif %}
+
+                                        {% if profile.social_portfolio %}
+
+                                        <a href="#" class="btn icon icon-left btn-light" style="background-color: transparent; border: none;">
+                                            <i class="bi bi-globe" style="font-size: 30px; color: #5ddab4;"></i>
+                                        </a>
+
+                                        {% endif %}
+
+                                    </div>
+                                    
+
+                        
+                                    <a href="#" class="btn btn-primary p-5 pt-3 pb-3 mt-4">Send Message</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+
+
+
+        </div>
+
+        <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            
+            
+
+
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body p-5">
+                        <h4 class="card-title">ABOUT ME</h4>
+                        <div style="text-align: justify;">
+                            <p class="card-text mt-4"></p>
+                                {{profile.bio}}
+                            </p>
+                        </div>
+                        <h4 class="card-title mt-4">SKILLS</h4>
+
+                        {% for skill in topskills %}
+
+                        <div class="row mt-4">
+                            <div class="col-4">
+                                <h6>{{skill.name}}</h6>
+                            </div>
+                            <div class="col-7" style="text-align: justify;">
+                                <p class="card-text">
+                                    {{skill.description}}
+                                </p>
+                            </div>
+                            
+                        </div>
+        
+                        {% endfor %}
+                        
+                        <h4 class="card-title mt-4 mb-4">OTHER SKILLS</h4>
+                        
+                        {% for skill in otherskills %}
+                        
+                        <button class="btn bg-light-primary m-1" style="border-radius: 50px;">
+                            {{skill.name}}
+                        </button>
+                        
+                        {% endfor %}
+                        
+                        <h4 class="card-title mt-4 mb-4">PROJECTS</h4>
+
+                        <div class="row">
+
+                            {% for project in profile.project_set.all %}
+
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="card" style="border: 2px solid gray; border-radius: 12px;">                          
+                                    <div class="card-content">
+                                        <a href="{% url 'project' project.id %}">
+                                            <div class="image-container" style="height: 20rem; overflow: hidden;">
+                                                <img class="card-img-top img-fluid" src="{{project.featured_image.url}}" alt="Card image cap" style="width: 100%; height: 100%; object-fit: cover;"/>
+                                            </div>
+                                        </a>
+                                        
+                                        <div class="card-body">
+                                            <hr>
+                                            <h4 class="card-title">{{project.title}}</h4>
+                                            <p class="card-text">
+                                                {{project.description|slice:50}}
+                                            </p>
+                                            <p class="card-text">
+                                                Cupcake fruitcake macaroon donut pastry gummies tiramisu chocolate bar muffin.
+                                            </p>
+
+                                            {% for tag in project.tags.all %}
+
+                                                <span class="badge bg-light-primary" style="border-radius: 50px;">
+                                                    <small>{{tag}}</small>
+                                                </span>
+
+                                            {% endfor %}
+
+                                            <!-- <div class="btn-group align-items-center mx-2 px-1">
+                                                <button type="button" class="btn btn-link p-2 m-1 text-decoration-none">
+                                                    <i
+                                                        class="bi bi-heart d-flex align-items-center justify-content-center text-secondary"> {{ project.like_total }}</i>
+                                                </button>
+                                                <button type="button" class="btn btn-link p-2 m-1 text-decoration-none">
+                                                    <i
+                                                        class="bi bi-chat d-flex align-items-center justify-content-center text-secondary"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-link p-2 m-1 text-decoration-none">
+                                                    <i
+                                                        class="bi bi-bookmark d-flex align-items-center justify-content-center text-secondary"></i>
+                                                </button>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {% endfor %}
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

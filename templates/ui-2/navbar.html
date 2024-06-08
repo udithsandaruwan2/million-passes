@@ -7,7 +7,16 @@
           <li class="nav-item"><a class="nav-link {% if page == 'events' %} active {% endif %}" aria-current="page" href="{% url 'events' %}">Home</a></li>
           <li class="nav-item"><a class="nav-link {% if page == 'about' %} active {% endif %}" aria-current="page" href="{% url 'about' %}">About</a></li>
           <li class="nav-item"><a class="nav-link {% if page == 'blogs' %} active {% endif %}" aria-current="page" href="blogs.html">Blogs</a></li>
-          <li class="nav-item mt-2 mt-lg-0"><a class="nav-link btn btn-light text-black w-md-25 w-50 w-lg-100" aria-current="page" href="#">Log In</a></li>
+          
+          {% if request.user.is_authenticated %}
+
+          <li class="nav-item mt-2 mt-lg-0"><a class="nav-link btn btn-light text-black w-md-25 w-50 w-lg-100" aria-current="page" href="{% url 'logout' %}">Log Out</a></li>
+
+          {% else %}
+          
+          <li class="nav-item mt-2 mt-lg-0"><a class="nav-link btn btn-light text-black w-md-25 w-50 w-lg-100" aria-current="page" href="{% url 'login' %}">Log In</a></li>
+          
+          {% endif %}
         </ul>
       </div>
     </div>

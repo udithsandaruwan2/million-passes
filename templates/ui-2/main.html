@@ -35,20 +35,39 @@
 
 
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{% static 'styles/custom.css' %}" />
+
 </head>
 
 <body>
     <main class="main" id="top">
 
+        {% if messages %}
+
+  <ul class="messages">
+    {% for message in messages %}
+    <li>
+      <div class="alert alert-dark" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">&times;</button>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+
+{% endif %}
+
         {% include 'ui-2/navbar.html' %}
 
-        {% if page != 'about' %}
+        {% if page != 'about' and page != 'single-event' %}
 
-        {% include 'ui-2/hero.html' %}
+            {% include 'ui-2/hero.html' %}
 
         {% endif %}
 
         {% block content %}
+
         {% endblock content %}
 
         {% include 'ui-2/footer.html' %}
@@ -67,6 +86,8 @@
     <script src="{% static 'ui-kit-2/build/vendors/prism/prism.js' %}"></script>
     <script src="{% static 'ui-kit-2/build/vendors/swiper/swiper-bundle.min.js' %}"></script>
     <script src="{% static 'ui-kit-2/build/assets/js/theme.js' %}"></script>
+
+    <script src="{% static 'js/custom.js' %}"></script>
 
 </body>
 
