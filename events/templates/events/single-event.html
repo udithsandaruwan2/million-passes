@@ -4,154 +4,619 @@
 
 {% block content %}
 
-      <!-- ============================================-->
+
+
+<!-- ============================================-->
 <!-- <section> begin ============================-->
-  <section class="bg-dark text-center py-9">
-    <div class="container text-right"> <!-- added text-right class here -->
-      <p class="text-light fs-1">Event About</p>
-      <div class="col-12 col-md-7 mx-auto">
-        <h1 class="text-white fs-lg-7 fs-md-4 fs-3 my-4">Kawaali , feel great!</h1>
+
+
+<section class="p-0 m-0">
+    <div class="container-fluid p-0 m-0">
+        <div class="main-image" style="background-image: url('{{ event.featured_image.url }}');"></div>
+        <div class="overlay-text">
+          <strong> {{ event.title }} </strong>
       </div>
-      <p class="w-md-50 text-light mx-auto"></p>
-    </div><!-- end of .container-->
-  </section><!-- <section> close ============================-->
+    </div>
+    <div class="overlay-image-container">
+        <img class="overlay-image" src="{{ event.featured_image.url }}" alt="" />
+    </div>
+</section>
+<div class="countdown-container"> 
+    <div class="countdown-text col-6 ">
+      <h1 style="margin-top: 30px;"><strong>Event will start on</strong></h1>
+  </div>  
+    <div class="col-6">
+      <div id="countdown">
+        <div class="countdown-item">
+            <span id="days" class="countdown-value"></span>
+            <span class="countdown-label">DAYS</span>
+        </div>
+        <div class="countdown-item">
+            <span id="hours" class="countdown-value"></span>
+            <span class="countdown-label">HOURS</span>
+        </div>
+        <div class="countdown-item">
+            <span id="minutes" class="countdown-value"></span>
+            <span class="countdown-label">MINS</span>
+        </div>
+        <div class="countdown-item">
+            <span id="seconds" class="countdown-value"></span>
+            <span class="countdown-label">SECS</span>
+        </div>
+    </div>
+    </div>
+
+</div>
+<div class="footer-space"></div> 
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var countdownTarget = new Date("{{ event.date_time|date:'c' }}").getTime();
+
+            var x = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = countdownTarget - now;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = days;
+                document.getElementById("hours").innerText = hours;
+                document.getElementById("minutes").innerText = minutes;
+                document.getElementById("seconds").innerText = seconds;
+
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown").innerText = "EXPIRED";
+                }
+            }, 1000);
+        });
+    </script>
+    <style>
+      .overlay-text {
+    position: absolute;
+    bottom: 20px; /* Adjust the bottom value to position the text vertically */
+    left: 12%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 24px; /* Adjust the font size as needed */
+    font-weight: bold;
+    text-align: left;
+    padding: 10px; 
+    text-transform: uppercase;/* Optional: add some padding */
+}
+      .container-fluid {
+          position: relative;
+          width: 100%;
+          padding: 0;
+          margin: 0;
+      }
+    
+      .main-image {
+          position: relative;
+          width: 100%;
+          height: 450px; /* Adjust the height as needed */
+          background-image: url('{{ event.featured_image.url }}');
+          background-repeat: repeat; /* This makes the background image repeat */
+          background-size: auto; /* This keeps the original size of the image */
+          background-position: center; /* Ensures the image is centered */
+      }
+    
+      .main-image::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.8); /* 50% black overlay */
+          pointer-events: none; /* Allows clicks to pass through the overlay */
+      }
+    
+      .overlay-image-container {
+          position: absolute;
+          top: 100%;
+          left: 80%;
+          transform: translate(-50%, -50%);
+          width: 350px;
+          height: 350px;
+      }
+    
+      .overlay-image {
+          object-fit: cover;
+          border: 10px solid white;
+          border-radius: 25px;
+          width: 100%;
+          height: 100%;
+      }
+    
+      .footer-space {
+          height: 50px; /* Adjust the height as needed to create space */
+      }
+    
+    
+    h1 {
+        color: #4a47a3;
+        font-size: 28px;
+        margin-bottom: 0px;
+    }
+    
+      .countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 100px;
+}
+
+#countdown {
+    display: flex;
+    justify-content: flex-start; /* Align the countdown elements to the start (left) */
+    gap: 10px;
+}
+
+    
+    .countdown-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #f0f0f5;
+        border-radius: 8px;
+        padding: 15px;
+        width: 80px;
+    }
+    
+    .countdown-value {
+        font-size: 32px;
+        color: #4a47a3;
+        font-weight: bold;
+    }
+    
+    .countdown-label {
+        font-size: 14px;
+        color: #666;
+    }
+    
+    @media (max-width: 1180px) {
+  .overlay-image-container {
+    position: absolute;
+    top: 100%;
+    left: 70%; /* Adjust this value to move it a little to the left */
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 350px;
+  }
+
+
+
+    .overlay-text{
+      position: absolute;
+    bottom: 20px; /* Adjust the bottom value to position the text vertically */
+    left: 15%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 24px; /* Adjust the font size as needed */
+    font-weight: bold;
+    text-align: left;
+    padding: 10px; 
+    text-transform: uppercase;
+    }
+    .countdown-text{
+  display: none;
+}
+.countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 160px;
+
+}
+    }
+    @media (max-width: 1099px) {
+      .countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 140px;
+
+}
+
+    }
+
+    @media (max-width: 999px) {
+      .countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 120px;
+
+}
+
+    }
+
+    @media (max-width: 930px) {
+      .countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 90px;
+
+}
+
+    }
+    @media (max-width: 887px) {
+      .countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 55px;
+
+}
+    }
+
+    @media (max-width: 850px) {
+      .countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 55px;
+
+}
+
+    }
+    @media (max-width: 831px) {
+      .countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 45px;
+
+}
+
+    }
+
+    @media (max-width: 815px) {
+      .countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 35px;
+
+}
+
+    }
+
+    @media (max-width: 800px) {
+      .countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 20px;
+
+}
+
+    }
+
+    @media (max-width: 779px) {
+      .countdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align items to the start (left) */
+      margin-top: 50px;
+      margin-left: 10px;
+
+}
+
+    }
+
+    @media (max-width: 757px) {
+  .countdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start (left) */
+    margin-top: 250px;
+    margin-left: 225px;
+  }
+
+  .overlay-text{
+      position: absolute;
+    bottom: 20px;
+    top: 40%; /* Adjust the bottom value to position the text vertically */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 30px; /* Adjust the font size as needed */
+    font-weight: bold;
+    text-align: left;
+    padding: 10px; 
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    }
+    .overlay-image-container {
+    position: absolute;
+    top: 100%;
+    left: 50%; /* Adjust this value to move it a little to the left */
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 450px;
+  }
+  .overlay-text{
+
+top: 30%; /* Adjust the bottom value to position the text vertically */
+
+}
+}
+
+@media (max-width: 687px) {
+  .countdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start (left) */
+    margin-top: 250px;
+    margin-left: 200px;
+  }
+  .overlay-text{
+
+top: 30%; /* Adjust the bottom value to position the text vertically */
+
+}
+}
+
+@media (max-width: 622px) {
+  .countdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start (left) */
+    margin-top: 250px;
+    margin-left: 170px;
+  }
+}
+
+
+@media (max-width: 592px) {
+  .countdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 250px;
+    margin-left: 145px;
+  }
   
-      <!-- ============================================-->
+}
+
+@media (max-width: 532px) {
+  .countdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 250px;
+    margin-left: 115px;
+  }
+  .overlay-text{
+
+    top: 30%; /* Adjust the bottom value to position the text vertically */
+
+    }
+  
+}
+@media (max-width: 483px) {
+  .countdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 250px;
+    margin-left: 85px;
+  }
+  .overlay-image-container {
+
+
+    width: 350px;
+    height: 350px;
+  }
+}
+@media (max-width: 455px) {
+  .countdown-container {
+
+    margin-left: 65px;
+  } 
+}
+@media (max-width: 429px) {
+  .countdown-container {
+
+    margin-left: 60px;
+  } 
+}
+@media (max-width: 425px) {
+  .countdown-container {
+
+    margin-left: 55px;
+  } 
+}
+
+@media (max-width: 420px) {
+  .countdown-container {
+
+    margin-left: 53px;
+  } 
+}
+@media (max-width: 417px) {
+  .countdown-container {
+
+    margin-left: 40px;
+  } 
+}
+@media (max-width: 410px) {
+  .countdown-container {
+
+    margin-left: 45px;
+  } 
+}
+@media (max-width: 400px) {
+  .countdown-container {
+    margin-top: 185px;
+    margin-left: 25px;
+  } 
+  .main-image {
+          position: relative;
+          width: 100%;
+          height: 350px; /* Adjust the height as needed */
+          background-image: url('{{ event.featured_image.url }}');
+          background-repeat: repeat; /* This makes the background image repeat */
+          background-size: auto; /* This keeps the original size of the image */
+          background-position: center; /* Ensures the image is centered */
+  }
+  .overlay-image-container {
+
+margin-bottom: 0px;
+padding-bottom: 0px;
+width: 275px;
+height: 275px;
+}
+.overlay-text{
+      position: absolute;
+    bottom: 20px;
+    top: 40%; /* Adjust the bottom value to position the text vertically */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 30px; /* Adjust the font size as needed */
+    font-weight: bold;
+    text-align: left;
+    padding: 10px; 
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 339px) {
+  .overlay-image-container {
+
+margin-bottom: 0px;
+width: 250px;
+height: 250px;
+}
+  .countdown-container {
+margin-top: 0px;
+margin-left: 5px;
+} 
+.centered-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+}
+.ticket-prices {
+    background: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    font-weight: bold; /* Added font-weight */
+}
+.ticket-prices h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #090157;
+    font-weight: bold; /* Added font-weight */
+}
+.ticket-prices ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-weight: bold; /* Added font-weight */
+}
+.ticket-prices li {
+    font-size: 1.2em;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    color: #333;
+    font-weight: bold; /* Added font-weight */
+}
+.ticket-prices li span {
+    color: #6c63ff;
+    font-weight: bold; /* Added font-weight */
+}
 
 
 
-      <!-- ============================================-->
-<!-- ============================================-->
-<section class="pb-0" style="margin-top: -150px;">
-  <div class="container">
-    <div class="gallery-wraper">
-      <div class="img-wraper"><img class="img-fluid" src="{% static 'ui-kit-2/build/assets/img/gallery/5.png' %}" alt="" /></div>
-    </div>
-    <div class="px-xl-8 px-md-5 px-3 py-8" style="text-align: right; margin-top: -20px;">
-      <p class="fs-1">Our Story</p>
-      <h1 class="fs-lg-6 fs-md-4 fs-3 my-4">Handshake infographic mass market crowdfunding iteration.</h1>
-      <p class="fs-1">Conversion angel investor entrepreneur first mover advantage. Handshake infographic mass market crowdfunding iteration. Traction stock user experience deployment beta innovator incubator focus. Sales user experience branding growth hacking holy grail monetization conversion prototype stock network effects. Learning curve network effects return on investment bootstrapping business-to-consumer.</p>
-    </div>
-  </div><!-- end of .container-->
-</section><!-- <section> close ============================-->
-<!-- ============================================-->
+ </style>
 
 
 
 
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section class="bg-dark">
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+      <div class="row mb-0">
         <div class="container">
-          <p class="text-center text-light">Our numbers</p>
-          <h1 class="text-center text-white w-lg-75 mx-auto fs-xl-6 fs-lg-4 fs-3">Handshake infographic mass market crowdfunding iteration.</h1>
-          <div class="row mt-5">
-            <div class="col-md-4 col-sm-6 text-center">
-              <h1 class="text-success fs-5 fs-md-6 fs-lg-7 fs-xl-9">120M</h1>
-              <p class="text-light fs-2">Cool feature title</p>
+          <div class="p-3 text-justify">
+            <h2 class="info-event mb-5"><strong>INFORMATION</strong></h2>
+            <p>{{ event.description }}</p>
+            <div class="mt-3 centered-content">
+              <h5>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-day" viewBox="0 0 16 16">
+                  <path d="M4.684 11.523v-2.3h2.261v-.61H4.684V6.801h2.464v-.61H4v5.332zm3.296 0h.676V8.98c0-.554.227-1.007.953-1.007.125 0 .258.004.329.015v-.613a2 2 0 0 0-.254-.02c-.582 0-.891.32-1.012.567h-.02v-.504H7.98zm2.805-5.093c0 .238.192.425.43.425a.428.428 0 1 0 0-.855.426.426 0 0 0-.43.43m.094 5.093h.672V7.418h-.672z"/>
+                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                </svg>
+                {{ event.date_time }}
+              </h5>
+              <h5>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                  <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                  <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                </svg>
+                {{ event.location }}
+              </h5>
+              <h5>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+                  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                  <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
+                </svg>
+                {{ event.owner }}
+              </h5>
             </div>
-            <div class="col-md-4 col-sm-6 text-center">
-              <h1 class="text-success fs-5 fs-md-6 fs-lg-7 fs-xl-9">10.000</h1>
-              <p class="text-light fs-2">Cool feature title</p>
-            </div>
-            <div class="col-md-4 col-sm-6 text-center">
-              <h1 class="text-success fs-5 fs-md-6 fs-lg-7 fs-xl-9">240</h1>
-              <p class="text-light fs-2">Cool feature title</p>
-            </div>
-          </div>
-        </div><!-- end of .container-->
-      </section><!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section>
-        <div class="container">
-          <div class="px-xl-8 px-md-5 px-3">
-            <p class="text-gray fs-1">Our team</p>
-            <h1 class="text-black fs-lg-6 fs-md-4 fs-3 my-4">The leadership team</h1>
-            <p class="text-gray fs-1 w-lg-75">Conversion angel investor entrepreneur first mover advantage. Handshake infographic mass market crowdfunding iteration. Traction stock user experience deployment beta innovator incubator focus.</p>
-          </div>
-          <div class="row mt-7">
-            <div class="col-md-4 col-sm-6 mb-5 mb-lg-0 text-center text-sm-left"><a href="#"><img class="img-fluid" src="{% static 'ui-kit-2/build/assets/img/team/1.png' %}" alt="" /></a>
-              <h1 class="fs-3 mt-3">Michael Scott</h1>
-              <p class="fs-1">General Manager</p>
-            </div>
-            <div class="col-md-4 col-sm-6 mb-5 mb-lg-0 text-center text-sm-left"><a href="#"><img class="img-fluid" src="{% static 'ui-kit-2/build/assets/img/team/2.png' %}" alt="" /></a>
-              <h1 class="fs-3 mt-3">Dwight Schrute</h1>
-              <p class="fs-1">General Manager</p>
-            </div>
-            <div class="col-md-4 col-sm-6 mb-5 mb-lg-0 text-center text-sm-left"><a href="#"><img class="img-fluid" src="{% static '' %}ui-kit-2/build/assets/img/team/3.png" alt="" /></a>
-              <h1 class="fs-3 mt-3">Pam Beetsley</h1>
-              <p class="fs-1">General Manager</p>
-            </div>
-          </div>
-        </div><!-- end of .container-->
-      </section><!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section class="bg-dark">
-        <div class="container">
-          <div class="px-xl-8 px-md-5 px-3">
-            <p class="text-light fs-1">Our values</p>
-            <h1 class="text-white fs-lg-6 fs-md-4 fs-3 my-lg-4 my-3">Things in we believe</h1>
-            <p class="text-light w-lg-75 fs-1">Conversion angel investor entrepreneur first mover advantage. Handshake infographic mass market crowdfunding iteration. Traction stock user experience deployment beta innovator incubator focus.</p>
-            <div class="row mt-5">
-              <div class="col-md-3"><img class="img-fluid" src="{% static 'ui-kit-2/build/assets/img/values/1.png' %}" alt="" /></div>
-              <div class="col-md-9 mt-2 mb-md-0">
-                <h1 class="text-white fs-2 fs-lg-3 my-2">We are commited.</h1>
-                <p class="text-light fs-1">Conversion angel investor entrepreneur first mover advantage. Handshake infographic mass market crowdfunding iteration.</p>
-              </div>
-            </div>
-            <div class="row mt-5">
-              <div class="col-md-3"><img class="img-fluid" src="{% static 'ui-kit-2/build/assets/img/values/2.png' %}" alt="" /></div>
-              <div class="col-md-9 mt-2 mb-md-0">
-                <h1 class="text-white fs-2 fs-lg-3 my-2">We are responsible.</h1>
-                <p class="text-light fs-1">Conversion angel investor entrepreneur first mover advantage. Handshake infographic mass market crowdfunding iteration.</p>
-              </div>
-            </div>
-            <div class="row mt-5">
-              <div class="col-md-3"><img class="img-fluid" src="{% static 'ui-kit-2/build/assets/img/values/3.png' %}" alt="" /></div>
-              <div class="col-md-9 mt-2 mb-md-0">
-                <h1 class="text-white fs-2 fs-lg-3 my-2">We aim for progress.</h1>
-                <p class="text-light fs-1">Conversion angel investor entrepreneur first mover advantage. Handshake infographic mass market crowdfunding iteration.</p>
-              </div>
-            </div>
-          </div>
-        </div><!-- end of .container-->
-      </section><!-- <section> close ============================-->
-      <!-- ============================================-->
-
-    </main><!-- ===============================================-->
-    <!--    End of Main Content-->
-    <!-- ===============================================-->
-
-
-
-    <!-- ============================================-->
-    <!-- <section> begin ============================-->
-    <section>
-      <div class="container bg-dark overflow-hidden rounded-1">
-        <div class="bg-holder" style="background-image: url('ui-kit-2/build/assets/img/promo/promo-bg.png');"></div>
-        <!--/.bg-holder-->
-        <div class="px-5 py-7 position-relative">
-          <h1 class="text-center w-lg-75 mx-auto fs-lg-6 fs-md-4 fs-3 text-white">An enterprise template to ramp up your company website</h1>
-          <div class="row justify-content-center mt-5">
-            <div class="col-auto w-100 w-lg-50"><input class="form-control mb-2 border-light fs-1" type="email" placeholder="Your email address" /></div>
-            <div class="col-auto mt-2 mt-lg-0"><button class="btn btn-success text-dark fs-1">Start now</button></div>
           </div>
         </div>
-      </div><!-- end of .container-->
-    </section><!-- <section> close ============================-->
-    <!-- ============================================-->
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+      <div class="ticket-prices">
+        <h2 class="mb-4 mt-2">Ticket Prices</h2>
+        <ul>
+
+          {% for ticket_price in ticket_prices %}
+
+            <li class="mb-4">{{ ticket_price.name }} <span>{{ ticket_price.price }}</span></li>
+
+            {% endfor %}
+
+        </ul>
+        <a style="background-color: rgb(10, 38, 64); " class="btn btn-light text-white  mt-4" href="">Buy Now</a>
+    </div>
+    </div>
+  </div>
+</div>
 
 
 
 
-    {% endblock content %}
+{% endblock content %}

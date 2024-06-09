@@ -11,20 +11,27 @@
       <div class="row justify-content-center gx-xl-7 mt-5">
         
         {% for event in events %}
-
-        <div class="col-md-4 mb-6 mb-md-0 d-flex flex-column align-items-center text-center text-md-center">
-          <img class="w-50 w-md-100" src="{{ event.featured_image.url }}" alt="" style="width: 900px; height: 400px; object-fit: cover; border-radius: 20px;"/>
-          <h4 class="mt-3 my-1" style="color: #000;">{{ event.title }}</h4>
+        <div class="col-lg-3 col-md-4 mb-6 mb-md-0 d-flex flex-column align-items-center text-center text-md-center m-5">
+          <a href="{% url 'single-event' event.id %}" style="color: #000;">
+            <img class="m-2" src="{{ event.featured_image.url }}" alt="" style="width: 334px; height: 400px; object-fit: cover; border-radius: 20px;"/>
+          </a>
+            <h4 class="mt-3 my-1" style="color: #000;">{{ event.title }}</h4>
           <p class="fs-1 mb-0" style="color: #000;">{{ event.description|slice:100 }}</p>
           <h5 style="color: rgb(255, 0, 0);"> {{ event.location }} </h5>
-          <h5 style="color: rgb(255, 0, 0);"> {{ event.date }} </h5>
+          <h5 style="color: rgb(255, 0, 0);"> {{ event.date_time }} </h5>
           <a class="text-dark fs-1 pb-2 fw-bold border-black border-bottom text-decoration-none" href="{% url 'single-event' event.id %}" style="color: #000;">Buy Now <i class="fa-solid fa-arrow-right ms-2"></i></a>
         </div>
-
-      {% endfor %}
-
+        {% endfor %}
       </div>
     </div><!-- end of .container-->
-  </section>
+</section>
+
+<style>
+  @media screen and (max-width: 585px) {
+    .w-50 {
+      width: 500px;
+    }
+  }
+</style>
 
 {% endblock content %}
