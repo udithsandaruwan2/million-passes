@@ -1,80 +1,44 @@
+{% extends 'ui/main.html' %}
+
 {% load static %}
-<html
-  lang="en"
-  class="light-style"
-  dir="ltr"
-  data-theme="theme-default"
-  data-assets-path="../assets/"
-  data-template="vertical-menu-template-free"
->
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-    />
 
-    <title>Floak</title>
+{% block content %}
 
-    <meta name="description" content="" />
+<div class="row m-5 mb-1 justify-content-center">
+  <div class="col-3">
+    <h1>EVENTS</h1>
+  </div>
+  <hr>
+</div>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{% static 'ui-kit/assets/img/favicon/favicon.ico' %}" />
+<div class="m-4">
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5 ">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet"
-    />
+  {% for event in events %}
+  <div class="col">
+    <div class="card h-100">
+      <img class="card-img-top" src="{{ event.featured_image.url }}" alt="Card image cap" style="height: 200px; object-fit: cover;" />
+      <div class="card-body">
+        <div class="row justify-content-center">
+          <div class="col text-center">
+            <h5 class="card-title">{{ event.title }}</h5>
+          </div>
+        </div>
 
-    <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="{% static 'ui-kit/assets/vendor/fonts/boxicons.css' %}" />
+            <p class="card-text">
+              {{ event.description|slice:100 }}...
+            </p>
+            <a href="{% url 'update-event' event.id %}" class="btn btn-secondary">Edit</a>
+            <a style="background-color: red;" href="{% url 'delete-event' event.id %}" class="btn btn-secondary">Delete</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
 
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="{% static 'ui-kit/assets/vendor/css/core.css' %}" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="{% static 'ui-kit/assets/vendor/css/theme-default.css' %}" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="{% static 'ui-kit/assets/css/demo.css' %}" />
 
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{% static 'ui-kit/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
 
-    <!-- Page CSS -->
+</div>
+</div>
 
-    <!-- Helpers -->
-    <script src="{% static 'ui-kit/assets/vendor/js/helpers.js' %}"></script>
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{% static 'ui-kit/assets/js/config.js' %}"></script>
-  </head>
-
-  <body>
-    <!-- Content -->
-
-    <h4 class="fw-bold p-4">Blank Page</h4>
-
-    <!-- / Content -->
-
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="{% static 'ui-kit/assets/vendor/libs/jquery/jquery.js' &}"></script>
-    <script src="{% static 'ui-kit/assets/vendor/libs/popper/popper.js' %}"></script>
-    <script src="{% static 'ui-kit/assets/vendor/js/bootstrap.js' %}"></script>
-    <script src="{% static 'ui-kit/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
-
-    <script src="{% static 'ui-kit/assets/vendor/js/menu.js' %}"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-
-    <!-- Main JS -->
-    <script src="{% static 'ui-kit/assets/js/main.js' %}"></script>
-
-    <!-- Page JS -->
-
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-  </body>
-</html>
+{% endblock content %}

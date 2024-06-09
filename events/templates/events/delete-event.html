@@ -1,0 +1,30 @@
+{% extends 'ui/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center m-2 mt-4">
+    <div class="col-xs-11 col-sm-11 col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-body">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <h5 class="card-title">Delete Event</h5>
+                    <p class="card-text">
+                        Are you sure want to delete {{ event.title }} ?
+                    </p>
+                    <a href="{% url 'admin' %}" class="btn btn-secondary">Back</a>
+                    <button type="submit" style="background-color: red;" href="{% url 'delete-event' event.id %}" class="btn btn-secondary">Delete</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% load static %}
+
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+      <a href="{% url 'admin' %}" class="">
+        
+        <span class="app-brand-text demo menu-text fw-bolder ms-2">Floak</span>
+      </a>
+
+      <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+      </a>
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+      <li class="menu-item {% if page == 'dashboard' %} active {% endif %}">
+        <a href="{% url 'admin' %}" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-home-circle"></i>
+          <div data-i18n="Analytics">Home</div>
+        </a>
+      </li>
+
+      <li class="menu-item {% if page == 'add-event' %} active {% endif %}">
+        <a href="{% url 'add-event' %}" class="menu-link">
+            <i class="menu-icon fas fa-plus"></i>
+            <div data-i18n="Analytics">Add Event</div>
+        </a>
+    </li>
+
+    <li class="menu-item {% if page == 'tickets' %} active {% endif %}">
+        <a href="{% url 'tickets' %}" class="menu-link">
+            <i class="menu-icon fas fa-ticket"></i>
+            <div data-i18n="Analytics">Tickets</div>
+        </a>
+    </li>
+    
+    
+    </ul>
+</aside>

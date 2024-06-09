@@ -17,11 +17,12 @@ class Event(models.Model):
         return self.title
 
 class TicketPrices(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='ticket_prices')
     price = MoneyField(max_digits=10, decimal_places=2, default_currency='LKR')
+    amount = models.IntegerField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self):
         return f"{self.name} - {self.price}"
