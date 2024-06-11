@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from .models import Event
+from .models import Event, TicketPrices
 
 class EventForm(ModelForm):
     class Meta:
@@ -30,3 +30,27 @@ class EventForm(ModelForm):
             {'class': 'form-control'}
         )
         
+class TicketForm(ModelForm):
+    class Meta:
+        model = TicketPrices
+        fields = ['name', 'event', 'price', 'amount']
+        
+        
+    def __init__(self, *args, **kwargs):
+        super(TicketForm, self).__init__(*args, **kwargs)
+        
+        self.fields['name'].widget.attrs.update(
+            {'class': 'form-control'}
+        )
+        
+        self.fields['event'].widget.attrs.update(
+            {'class': 'form-control'}
+        )
+        
+        self.fields['price'].widget.attrs.update(
+            {'class': 'form-control'}
+        )
+        
+        self.fields['amount'].widget.attrs.update(
+            {'class': 'form-control'}
+        )

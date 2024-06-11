@@ -52,13 +52,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 </head>
 
   <body>    
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
 
-        {% if page != 'add-event' and page != 'update-event' and page != 'delete-event' %}
+        {% if page != 'add-event' and page != 'update-event' and page != 'delete-event' and page != 'add-ticket'  and page != 'delete-ticket' %}
 
         {% include 'ui/sidebar.html' %}
 

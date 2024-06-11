@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'events.apps.EventsConfig',
     'users.apps.UsersConfig',
+    'checkouts.apps.CheckoutsConfig',
+    
     'djmoney',
 ]
 

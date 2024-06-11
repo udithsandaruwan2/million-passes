@@ -1,0 +1,93 @@
+{% extends 'ui-2/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+<!-- ============================================-->
+<!-- <section> begin ============================-->
+
+
+<section class="p-0 m-0">
+    <div class="container-fluid p-0 m-0">
+        <div class="main-image" style="background-image: url('{{ event.featured_image.url }}');"></div>
+        <div class="overlay-text">
+          <strong> {{ event.title }} </strong>
+      </div>
+    </div>
+</section>
+
+<div class="footer-space"></div> 
+
+
+
+    <style>
+      .overlay-text {
+    position: absolute;
+    bottom: 20px; /* Adjust the bottom value to position the text vertically */
+    left: 12%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 24px; /* Adjust the font size as needed */
+    font-weight: bold;
+    text-align: left;
+    padding: 10px; 
+    text-transform: uppercase;/* Optional: add some padding */
+}
+      .container-fluid {
+          position: relative;
+          width: 100%;
+          padding: 0;
+          margin: 0;
+      }
+    
+      .main-image {
+          position: relative;
+          width: 100%;
+          height: 450px; /* Adjust the height as needed */
+          background-image: url('{{ event.featured_image.url }}');
+          background-repeat: repeat; /* This makes the background image repeat */
+          background-size: auto; /* This keeps the original size of the image */
+          background-position: center; /* Ensures the image is centered */
+      }
+    
+      .main-image::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.8); /* 50% black overlay */
+          pointer-events: none; /* Allows clicks to pass through the overlay */
+      }
+    
+      .footer-space {
+          height: 50px; /* Adjust the height as needed to create space */
+      }
+
+
+  .main-image {
+          position: relative;
+          width: 100%;
+          height: 350px; /* Adjust the height as needed */
+          background-image: url('{{ event.featured_image.url }}');
+          background-repeat: repeat; /* This makes the background image repeat */
+          background-size: auto; /* This keeps the original size of the image */
+          background-position: center; /* Ensures the image is centered */
+  }
+
+
+
+
+
+ </style>
+
+
+
+
+
+
+{% endblock content %}

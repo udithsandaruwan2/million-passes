@@ -17,6 +17,7 @@ class Event(models.Model):
         return self.title
 
 class TicketPrices(models.Model):
+    owner = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=200, null=True, blank=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='ticket_prices')
     price = MoneyField(max_digits=10, decimal_places=2, default_currency='LKR')
@@ -25,7 +26,7 @@ class TicketPrices(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self):
-        return f"{self.name} - {self.price}"
+        return str(self.name)
 
 # Accessing TicketPrices from Event
     # event = Event.objects.get(id=some_event_id)

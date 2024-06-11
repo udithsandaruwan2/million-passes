@@ -1,0 +1,206 @@
+#ticket-number:focus {
+    border-color: #0a2640;
+}
+.overlay-text {
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+color: white;
+font-size: 24px;
+font-weight: bold;
+text-align: center;
+text-transform: uppercase;
+}
+
+.container-fluid {
+position: relative;
+width: 100%;
+padding: 0;
+margin: 0;
+}
+
+.main-image {
+width: 100%;
+height: 350px;
+background-repeat: no-repeat;
+background-size: cover;
+background-position: center;
+position: relative;
+}
+
+.main-image::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5);
+}
+
+.footer-space {
+height: 50px;
+}
+
+.section {
+display: none;
+padding: 20px;
+}
+
+.section.active {
+display: block;
+}
+
+.ticket-options {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.event-poster {
+width: 100%;
+max-width: 300px;
+margin-bottom: 20px;
+}
+
+.ticket-prices {
+width: 100%;
+}
+
+.total-amount {
+font-size: 18px;
+margin-bottom: 20px;
+text-align: right;
+}
+
+.billing-details input {
+display: block;
+width: 100%;
+padding: 10px;
+margin-bottom: 10px;
+border: 1px solid #ddd;
+border-radius: 4px;
+}
+
+.booking-summary {
+margin-bottom: 20px;
+}
+
+.payment-buttons {
+display: flex;
+justify-content: space-between;
+}
+
+.payment-buttons button {
+padding: 10px 20px;
+border: none;
+color: #fff;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.payment-buttons button#back-button {
+background-color: #6c757d;
+}
+
+.payment-buttons button:disabled {
+background-color: #cccccc;
+cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+.progress-tracker {
+    justify-content: center;
+}
+
+.step {
+    margin: 0 5px;
+}
+
+.circle {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+}
+
+.ticket-options {
+    align-items: stretch;
+}
+
+.event-poster {
+    margin-bottom: 10px;
+}
+
+.payment-buttons button {
+    width: 48%;
+}
+}
+
+@media (max-width: 576px) {
+.circle {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+}
+
+.ticket-prices table {
+    font-size: 14px;
+}
+
+.payment-buttons button {
+    width: 48%;
+    font-size: 14px;
+}
+
+.payment-buttons {
+    flex-direction: column;
+}
+
+.payment-buttons button {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.payment-buttons button:last-child {
+    margin-bottom: 0;
+}
+}
+
+.progress-tracker {
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 20px 0;
+}
+
+.step {
+display: flex;
+align-items: center;
+margin: 0 10px;
+}
+
+.circle {
+width: 50px;
+height: 50px;
+border-radius: 50%;
+background-color: #ddd;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 18px;
+color: #fff;
+margin: 10px;
+}
+
+.step.active .circle {
+background-color: #65e4a3;
+}
+
+.step:not(.active) .circle {
+background-color: #092e50;
+}
+
+button {
+cursor: pointer;
+}

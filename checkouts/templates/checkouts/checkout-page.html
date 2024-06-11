@@ -1,0 +1,169 @@
+{% extends 'ui-2/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section class="p-0 m-0">
+    <div class="container-fluid p-0 m-0">
+        <div class="main-image" style="background-image: url('{{ event.featured_image.url }}');"></div>
+        <div class="overlay-text">
+            <strong>{{ event.title }}</strong>
+        </div>
+    </div>
+</section>
+
+<div class="footer-space"></div>
+
+<div class="row mx-0">
+    <div class="col-lg-4 col-md-4 col-12 mb-4 mx-auto">
+    <div class="progress-tracker">
+        <div class="step active" id="step1">
+            <div class="circle">1</div>
+            <div class="label">Selection</div>
+        </div>
+        <div class="step" id="step2">
+            <div class="circle">2</div>
+            <div class="label">Payment</div>
+        </div>
+    </div>
+</div>
+
+    <div class="col-lg-8 col-md-8 col-12">
+        <div class="container">
+            <div id="select-tickets" class="section active">
+
+                <div class="ticket-options">
+
+                    <div class="ticket-prices">
+                        <h3>{{ event.title}}</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>No. of Tickets</th>
+                                        <!-- <th>Total</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for ticket_price in ticket_prices %}
+                                        <tr>
+                                            <td>{{ticket_price.name}}</td>
+                                            <td>{{ticket_price.price}}</td>
+                                            <input type="hidden" name="hiddenFieldName" id="hiddenField_{{forloop.counter}}" value="{{ticket_price.price}}">
+                                            <td>
+                                                <input type="number" value="0" min="0" class="form-control p-2" style="text-align: center; width: 200px;" 
+                                                    oninput="calculateAndSend(this, '{{ticket_price.price}}', '{{forloop.counter}}')">
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="total-amount">
+                            Total: <span id="total-amount">(You can see in Next Page)</span>
+                        </div>
+                        <div class="payment-buttons">
+                            <button style="background-color: #092e50;" id="checkout-button" type="button" class="btn btn-success" onclick="goToStep(2)">Checkout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="payment-details" class="section">
+                <h2>Payment Details</h2>
+                <form id="payment-form">
+                    <div class="billing-details">
+                        <input type="text" id="first-name" class="form-control mb-3" placeholder="First Name" required>
+                        <input type="text" id="last-name" class="form-control mb-3" placeholder="Last Name" required>
+                        <input type="email" id="email" class="form-control mb-3" placeholder="Email Address" required>
+                        <input type="tel" id="phone" class="form-control mb-3" placeholder="Phone No" required>
+                        <input type="text" id="id" class="form-control mb-3" placeholder="NIC / Passport / Driving License" required>
+                    </div>
+                    <div class="booking-summary">
+                        <h3>Booking Summary</h3>
+                        <p id="summary"></p>
+                        <p>Total: <span id="total-payment">{{total}} LKR</span></p>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="terms" required>
+                            <label class="form-check-label" for="terms">I accept and agree to Terms and Conditions</label>
+                        </div>
+                    </div>
+                    <div class="payment-buttons">
+                        <button type="button" id="back-button" class="btn btn-secondary" onclick="goToStep(1)">Back</button>
+                        <button style="background-color: #092e50;" type="submit" id="proceed-button" class="btn btn-success" disabled>Proceed to Pay</button>
+                    </div>
+                </form>
+            </div>
+        </div>   
+    </div>
+</div>
+
+
+<script>
+
+function calculateAndSend(inputElement, price, counter) {
+    var quantity = inputElement.value;
+    var total = quantity * price;
+
+    // Create an AJAX request
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/calculate_total", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("Total sent to the backend successfully.");
+        }
+    };
+
+    var data = {
+        total: total,
+        counter: int(counter)  // Send the counter to identify the row
+    };
+
+    xhr.send(JSON.stringify(data));
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const checkoutButton = document.getElementById('checkout-button');
+    const backButton = document.getElementById('back-button');
+    const proceedButton = document.getElementById('proceed-button');
+    const termsCheckbox = document.getElementById('terms');
+
+
+    checkoutButton.addEventListener('click', () => {
+        document.getElementById('select-tickets').classList.remove('active');
+        document.getElementById('payment-details').classList.add('active');
+    });
+
+    backButton.addEventListener('click', () => {
+        document.getElementById('payment-details').classList.remove('active');
+        document.getElementById('select-tickets').classList.add('active');
+    });
+
+    termsCheckbox.addEventListener('change', () => {
+        proceedButton.disabled = !termsCheckbox.checked;
+    });
+
+    document.getElementById('payment-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        alert('Payment processing...');
+    });
+
+});
+
+function goToStep(stepNumber) {
+    document.querySelectorAll('.step').forEach(step => {
+        step.classList.remove('active');
+    });
+    document.getElementById(`step${stepNumber}`).classList.add('active');
+}
+</script>
+
+{% endblock content %}
