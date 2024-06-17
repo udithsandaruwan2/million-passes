@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scan Success</title>
+</head>
+<body>
+    <h1>QR Code Scan Successful</h1>
+    <p>Ticket ID: {{ qr_code.ticket_id }}</p>
+    <p>Ticket Level: {{ qr_code.ticket_level }}</p>
+    <p>Event: {{ qr_code.event }}</p>
+    <p>Price: {{ qr_code.price }}</p>
+
+    <script>
+        setTimeout(function() {
+            window.location.href = "{% url 'scan_view' %}";
+        }, 3000);  // 2000 milliseconds = 2 seconds
+    </script>
+</body>
+</html>

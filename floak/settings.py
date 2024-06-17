@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'events.apps.EventsConfig',
     'users.apps.UsersConfig',
     'checkouts.apps.CheckoutsConfig',
+    'scan.apps.ScanConfig',
     
     'djmoney',
 ]

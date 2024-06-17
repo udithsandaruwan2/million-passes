@@ -24,7 +24,8 @@
             <th>Name</th>
             <th>Event</th>
             <th>Price</th>
-            <th>Amount</th>
+            <th>Initial Tickets</th>
+            <th>Remaing Tickets</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -38,6 +39,7 @@
             <td>
                 {{ ticket.price }}
             </td>
+            <td> {{ ticket.init_amount }} </td>
             <td> {{ ticket.amount }} </td>
             <td>
               <div class="dropdown">

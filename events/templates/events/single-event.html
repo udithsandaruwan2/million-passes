@@ -603,11 +603,11 @@ margin-left: 5px;
         <h2 class="mb-4 mt-2">Ticket Prices</h2>
         <ul>
 
-          {% for ticket_price in ticket_prices %}
+          {% for ticket_level in ticket_levels %}
 
-            <li class="mb-4">{{ ticket_price.name }} <span>{{ ticket_price.price }}</span></li>
+            <li class="mb-4">{{ ticket_level.name }} <span>{{ ticket_level.price }} LKR</span></li>
 
-            {% endfor %}
+          {% endfor %}
 
         </ul>
         <a style="background-color: rgb(10, 38, 64); " class="btn btn-light text-white  mt-4" href="{% url 'checkout' event.id %}">Buy Now</a>

@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Event, TicketPrices
+from .models import Event
 from .utils import searchEvents
-from .forms import EventForm, TicketForm
+from .forms import EventForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from users.models import Profile 
+from .models import TicketLevel 
+
 
 def blankPage(request):
     page = "blank"
@@ -24,8 +27,8 @@ def aboutPage(request):
 def singleEvent(request, pk):
     page = "single-event"
     event = get_object_or_404(Event, id=pk)
-    ticket_prices = event.ticket_prices.filter(event=event)
-    context = {'page': page, 'event': event, 'ticket_prices': ticket_prices}
+    ticket_levels = TicketLevel.objects.filter(event=pk)
+    context = {'page': page, 'event': event, 'ticket_levels':ticket_levels}
     return render(request, 'events/single-event.html', context)
 
 @login_required(login_url="login")
@@ -76,37 +79,39 @@ def deleteEvent(request, pk):
     context = {'page': page, 'event': event}
     return render(request, 'events/delete-event.html', context)
 
-@login_required(login_url="login")
-def ticketPage(request):
-    page = 'tickets'
-    profile = request.user.profile
-    tickets = TicketPrices.objects.filter(owner=profile)
-    context = {'page': page, 'tickets': tickets}
-    return render(request, 'events/tickets.html', context)
+# @login_required(login_url="login")
+# def ticketPage(request):
+#     page = 'tickets'
+#     profile = request.user.profile
+#     tickets = TicketPrice.objects.filter(owner=profile)
+#     context = {'page': page, 'tickets': tickets}
+#     return render(request, 'events/tickets.html', context)
 
-@login_required(login_url="login")
-def addTicket(request):
-    page = 'add-ticket'
-    profile = request.user.profile
-    form = TicketForm()
-    
-    if request.method == 'POST':
-        form = TicketForm(request.POST)
-        if form.is_valid():
-            ticket = form.save(commit=False)
-            ticket.owner = profile
-            ticket.save()
-            messages.success(request, 'Ticket added successfully!')
-            return redirect('tickets')
 
-    context = {'page': page, 'form': form}
-    return render(request, 'events/add-ticket.html', context)
+
+# @login_required(login_url="login")
+# def addTicket(request):
+#     page = 'add-ticket'
+#     profile = request.user.profile
+#     if request.method == 'POST':
+#         form = TicketForm(request.POST)
+#         if form.is_valid():
+#             ticket = form.save(commit=False)
+#             ticket.owner = profile
+#             ticket.save()
+#             messages.success(request, 'Ticket added successfully!')
+#             return redirect('tickets')
+#     else:
+#         form = TicketForm(profile=profile)  # Pass profile when the form is initially created
+
+#     context = {'page': page, 'form': form}
+#     return render(request, 'events/add-ticket.html', context)
 
 # @login_required(login_url="login")
 # def updateTicket(request, pk):
 #     page = 'update-ticket'
 #     profile = request.user.profile
-#     ticket = get_object_or_404(TicketPrices, id=pk)
+#     ticket = get_object_or_404(TicketPrice, id=pk)
 #     form = TicketForm(instance=ticket)
     
 #     if request.method == 'POST':
@@ -120,15 +125,15 @@ def addTicket(request):
 #     return render(request, 'events/update-ticket.html', context)
 
 
-@login_required(login_url="login")
-def deleteTicket(request, pk):
-    page = 'delete-ticket'
-    ticket = get_object_or_404(TicketPrices, id=pk)
+# @login_required(login_url="login")
+# def deleteTicket(request, pk):
+#     page = 'delete-ticket'
+#     ticket = get_object_or_404(TicketPrice, id=pk)
     
-    if request.method == 'POST':
-        ticket.delete()
-        messages.success(request, 'Tickets deleted successfully!')
-        return redirect('tickets')
+#     if request.method == 'POST':
+#         ticket.delete()
+#         messages.success(request, 'Tickets deleted successfully!')
+#         return redirect('tickets')
 
-    context = {'page': page, 'ticket': ticket}
-    return render(request, 'events/delete-ticket.html', context)
+#     context = {'page': page, 'ticket': ticket}
+#     return render(request, 'events/delete-ticket.html', context)

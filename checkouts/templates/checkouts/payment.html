@@ -1,0 +1,72 @@
+{% extends 'ui-2/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section class="p-0 m-0">
+    <div class="container-fluid p-0 m-0">
+        <div class="main-image" style="background-image: url('{{ event.featured_image.url }}');"></div>
+        <div class="overlay-text">
+            <strong>{{ event.title }}</strong>
+        </div>
+    </div>
+</section>
+
+<div class="footer-space"></div>
+
+<div class="row mx-0">
+    <div class="col-lg-4 col-md-4 col-12 mb-4 mx-auto">
+        <div class="progress-tracker">
+            <div class="step" id="step1">
+                <div class="circle">1</div>
+                <div class="label">Selection</div>
+            </div>
+            <div class="step active" id="step2">
+                <div class="circle">2</div>
+                <div class="label">Payment</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-12">
+        <div class="container">
+            <div id="payment-details" class="section active">
+                <h2>Payment Details</h2>
+                <form id="payment-form" method="POST">
+                    {% csrf_token %}
+                    <div class="billing-details">
+                        
+                        {% for field in form %}
+                            {{ field }}
+                        {% endfor %}
+
+                        
+                    </div>
+                    <div class="booking-summary">
+                        <h3>Booking Summary</h3>
+                        <p id="summary"></p>
+                        <strong><p style="font-size: large;">Total: <span id="total-payment">{{ ticket.price }} LKR</span></p></strong>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="terms" required>
+                            <label class="form-check-label" for="terms">I accept and agree to Terms and Conditions</label>
+                        </div>
+                    </div>
+                    <div class="payment-buttons">
+                        <a style="background-color: transparent; color: #092e50;border: none; box-shadow: none;" href="{% url 'checkout' event.id %}" id="back-button" class="btn btn-secondary P-2">Back</a>
+                        <button style="background-color: #092e50;" type="submit" id="proceed-button" class="btn btn-success P-1 " disabled>Proceed to Pay</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('terms').addEventListener('change', function() {
+        document.getElementById('proceed-button').disabled = !this.checked;
+    });
+</script>
+
+{% endblock content %}

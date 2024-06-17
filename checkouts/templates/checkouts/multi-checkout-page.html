@@ -1,0 +1,111 @@
+{% extends 'ui-2/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section class="p-0 m-0">
+    <div class="container-fluid p-0 m-0">
+        <div class="main-image" style="background-image: url('{{ event.featured_image.url }}');"></div>
+        <div class="overlay-text">
+            <strong>{{ event.title }}</strong>
+        </div>
+    </div>
+</section>
+
+<div class="footer-space"></div>
+
+<div class="row mx-0">
+    <div class="col-lg-4 col-md-4 col-12 mb-4 mx-auto">
+        <div class="progress-tracker">
+            <div class="step active" id="step1">
+                <div class="circle">1</div>
+                <div class="label">Selection</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="circle">2</div>
+                <div class="label">Payment</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-12">
+        <div class="container">
+
+            <form method="POST">
+                {% csrf_token %}
+                <div id="select-tickets" class="section active">
+                    <div class="ticket-options">
+
+
+
+
+
+
+
+                        <div class="ticket-prices">
+                            <h3>{{ event.title }}</h3>
+                            <div class="table-responsive">
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <table class="table">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Price</th>
+                                                <th>Select</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for ticket_level in ticket_levels %}
+                                            <tr>
+                                                <td>{{ ticket_level.name }}</td>
+                                                <td>{{ ticket_level.price }}</td>
+                                                <input type="hidden" name="hiddenFieldName" id="hiddenField_{{ forloop.counter }}" value="{{ ticket_level.price }}">
+                                                <td>
+                                                    <input type="radio" id="{{ ticket_level.id }}" name="options" value="{{ ticket_level.id }}">
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="total-amount">
+                                        <!-- Total: <span id="total-amount">(You can see in Next Page)</span> -->
+                                    </div>
+                                    <div class="payment-buttons">
+                                        <button style="background-color: #092e50;" type="submit" class="btn btn-success">Checkout</button>
+                                        <div class="total-amount">
+                                            <a href="{% url 'checkout' event.id %}" style="color: #092e50;"><strong>Buy One</strong></a>
+                                        </div>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
