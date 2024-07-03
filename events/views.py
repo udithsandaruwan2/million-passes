@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Event
 from .utils import searchEvents
-from .forms import EventForm
+from .forms import EventForm, TicketLevelForm, TeamMemberForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from users.models import Profile 
+from users.models import Profile, TeamMember
 from .models import TicketLevel 
 
 
@@ -79,33 +79,96 @@ def deleteEvent(request, pk):
     context = {'page': page, 'event': event}
     return render(request, 'events/delete-event.html', context)
 
-# @login_required(login_url="login")
-# def ticketPage(request):
-#     page = 'tickets'
-#     profile = request.user.profile
-#     tickets = TicketPrice.objects.filter(owner=profile)
-#     context = {'page': page, 'tickets': tickets}
-#     return render(request, 'events/tickets.html', context)
+@login_required(login_url="login")
+def ticketPage(request):
+    page = 'tickets'
+    profile = request.user.profile
+    ticket_levels = TicketLevel.objects.filter(owner=profile)
+    context = {'page': page, 'ticket_levels': ticket_levels}
+    return render(request, 'events/tickets.html', context)
 
 
+@login_required(login_url="login")
+def passesPage(request):
+    page = 'passes'
+    profile = request.user.profile
+    team_members = TeamMember.objects.filter(organizer=profile)
+    ticket_levels = TicketLevel.objects.filter(owner=profile)
+    context = {'page': page, 'ticket_levels': ticket_levels, 'team_members':team_members}
+    return render(request, 'events/passes.html', context)
 
-# @login_required(login_url="login")
-# def addTicket(request):
-#     page = 'add-ticket'
-#     profile = request.user.profile
-#     if request.method == 'POST':
-#         form = TicketForm(request.POST)
-#         if form.is_valid():
-#             ticket = form.save(commit=False)
-#             ticket.owner = profile
-#             ticket.save()
-#             messages.success(request, 'Ticket added successfully!')
-#             return redirect('tickets')
-#     else:
-#         form = TicketForm(profile=profile)  # Pass profile when the form is initially created
 
-#     context = {'page': page, 'form': form}
-#     return render(request, 'events/add-ticket.html', context)
+@login_required(login_url="login")
+def addTicket(request):
+    page = 'add-ticket'
+    profile = request.user.profile
+    events = Event.objects.filter(owner=profile)
+    profile = request.user.profile
+    
+    form = TicketLevelForm() 
+    if request.method == 'POST':
+        form = TicketLevelForm(request.POST)
+        event = request.POST.get('event')
+        event = Event.objects.get(id=event)
+        if form.is_valid():
+            ticket_level = form.save(commit=False)
+            ticket_level.owner = profile
+            ticket_level.event = event
+            ticket_level.save()
+            messages.success(request, 'Ticket added successfully!')
+            return redirect('tickets')
+
+    context = {'page': page, 'form': form, 'events':events}
+    return render(request, 'events/add-ticket.html', context)
+
+
+@login_required(login_url="login")
+def addTeamMembers(request):
+    page = 'add-team-member'
+    profile = request.user.profile
+
+    form = TeamMemberForm() 
+    if request.method == 'POST':
+        form = TeamMemberForm(request.POST)
+        if form.is_valid():
+            team_member = form.save(commit=False)
+            team_member.organizer = profile
+            team_member.save()
+            messages.success(request, 'Member added successfully!')
+            return redirect('passes')
+
+    context = {'page': page, 'form': form}
+    return render(request, 'events/add-member.html', context)
+
+@login_required(login_url="login")
+def updateTeamMembers(request, pk):
+    page = 'update-team-member'
+    profile = request.user.profile
+    member=TeamMember.objects.get(id=pk)
+
+    form = TeamMemberForm(instance=member) 
+    if request.method == 'POST':
+        form = TeamMemberForm(request.POST, instance=member)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Member updates successfully!')
+            return redirect('passes')
+
+    context = {'page': page, 'form': form}
+    return render(request, 'events/update-member.html', context)
+
+@login_required(login_url="login")
+def deleteTeamMember(request, pk):
+    page = 'delete-team-member'
+    member=TeamMember.objects.get(id=pk)
+    
+    if request.method == 'POST':
+        member.delete()
+        messages.success(request, 'Member deleted successfully!')
+        return redirect('passes')
+
+    context = {'page': page, 'member': member}
+    return render(request, 'events/delete-member.html', context)
 
 # @login_required(login_url="login")
 # def updateTicket(request, pk):
@@ -125,15 +188,15 @@ def deleteEvent(request, pk):
 #     return render(request, 'events/update-ticket.html', context)
 
 
-# @login_required(login_url="login")
-# def deleteTicket(request, pk):
-#     page = 'delete-ticket'
-#     ticket = get_object_or_404(TicketPrice, id=pk)
+@login_required(login_url="login")
+def deleteTicket(request, pk):
+    page = 'delete-ticket'
+    # ticket = get_object_or_404(TicketPrice, id=pk)
     
-#     if request.method == 'POST':
-#         ticket.delete()
-#         messages.success(request, 'Tickets deleted successfully!')
-#         return redirect('tickets')
+    # if request.method == 'POST':
+    #     ticket.delete()
+    #     messages.success(request, 'Tickets deleted successfully!')
+    #     return redirect('tickets')
 
-#     context = {'page': page, 'ticket': ticket}
-#     return render(request, 'events/delete-ticket.html', context)
+    # context = {'page': page, 'ticket': ticket}
+    return render(request, 'events/delete-ticket.html')

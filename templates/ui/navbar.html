@@ -11,7 +11,7 @@
             </div>
 
 
-            {% if page != 'add-event' and page != 'update-event' and page != 'delete-event' and page != 'add-ticket' and page != 'delete-ticket' %}
+            {% if page != 'add-event' and page != 'update-event' and page != 'delete-event' and page != 'add-ticket' and page != 'delete-ticket' and page != 'bulk-download' and page != 'add-team-member' and page != 'update-team-member' and page != 'delete-team-member' %}
 
               <!-- Search -->
               <div class="navbar-nav align-items-center">
@@ -34,15 +34,19 @@
 
               {% else %}
 
-              {% if page == 'add-ticket' or page == 'delete-ticket' %}
+                  {% if page == 'add-ticket' or page == 'delete-ticket' %}
 
-    <a href="{% url 'tickets' %}">
+                    <a href="{% url 'tickets' %}">
 
-{% else %}
+                    {% elif page == 'add-team-member' or page == 'update-team-member' or page == 'delete-team-member' %}
 
-    <a href="{% url 'admin' %}">
+                    <a href="{% url 'passes' %}">
 
-{% endif %}
+                  {% else %}
+
+                      <a href="{% url 'admin' %}">
+
+                  {% endif %}
 
                   
                   <div class="navbar-nav align-items-center">
@@ -58,7 +62,7 @@
               
 
 
-              {% endif %}
+            {% endif %}
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Place this tag where you want the button to render. -->

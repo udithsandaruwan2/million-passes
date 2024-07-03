@@ -3,19 +3,20 @@
 {% load static %}
 
 {% block content %}
-<div class="m-4">
 
+<div class="container mt-4">
+  <div class="row justify-content-end">
+    <div class="col-auto mt-3 mb-3">
+      <a href="{% url 'add-ticket' %}" type="submit" class="btn btn-primary">Add</a>
+    </div>
+  </div>
   <!-- Basic Bootstrap Table -->
   <div class="card">
     <div class="row">
-        <div class="col-10">
+        <div class="col-md-10 col-8">
             <h5 class="card-header">Tickets Table</h5>
         </div>
-        <div class="col-2 mt-3">
-            <a href="{% url 'add-ticket' %}" type="submit" class="btn btn-primary">Add</a>
-        </div>
     </div>
-    
     
     <div class="table-responsive">
       <table class="table table-striped">
@@ -24,43 +25,36 @@
             <th>Name</th>
             <th>Event</th>
             <th>Price</th>
-            <th>Initial Tickets</th>
-            <th>Remaing Tickets</th>
+            <th>Quantity</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-
-            {% for ticket in tickets %}
-
+          {% for ticket_level in ticket_levels %}
           <tr>
-            <td><strong>{{ ticket.name }}</strong></td>
-            <td>{{ ticket.event }}</td>
-            <td>
-                {{ ticket.price }}
-            </td>
-            <td> {{ ticket.init_amount }} </td>
-            <td> {{ ticket.amount }} </td>
+            <td><strong>{{ ticket_level.name }}</strong></td>
+            <td>{{ ticket_level.event }}</td>
+            <td>{{ ticket_level.price }} LKR</td>
+            <td>{{ ticket_level.quantity }}</td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                   <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <!-- <a class="dropdown-item" href=""><i class="bx bx-edit-alt me-1"></i> Edit</a> -->
-                  <a class="dropdown-item" href="{% url 'delete-ticket' ticket.id %}"><i class="bx bx-trash me-1"></i> Delete</a>
+                  <a class="dropdown-item" href="{% url 'delete-ticket' ticket_level.id %}">
+                    <i class="bx bx-trash me-1"></i> Delete
+                  </a>
                 </div>
               </div>
             </td>
           </tr>
-
           {% endfor %}
-
         </tbody>
       </table>
     </div>
   </div>
   <!--/ Basic Bootstrap Table -->
-
 </div>
 {% endblock content %}
+  

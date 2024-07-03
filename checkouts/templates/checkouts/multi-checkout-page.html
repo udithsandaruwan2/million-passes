@@ -3,6 +3,11 @@
 {% load static %}
 
 {% block content %}
+<style>
+    .quantity-input {
+        display: none;
+    }
+</style>
 
 <section class="p-0 m-0">
     <div class="container-fluid p-0 m-0">
@@ -31,81 +36,87 @@
 
     <div class="col-lg-8 col-md-8 col-12">
         <div class="container">
-
             <form method="POST">
                 {% csrf_token %}
                 <div id="select-tickets" class="section active">
                     <div class="ticket-options">
-
-
-
-
-
-
-
                         <div class="ticket-prices">
                             <h3>{{ event.title }}</h3>
                             <div class="table-responsive">
-                                <form method="POST">
-                                    {% csrf_token %}
-                                    <table class="table">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th>Category</th>
-                                                <th>Price</th>
-                                                <th>Select</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for ticket_level in ticket_levels %}
-                                            <tr>
-                                                <td>{{ ticket_level.name }}</td>
-                                                <td>{{ ticket_level.price }}</td>
-                                                <input type="hidden" name="hiddenFieldName" id="hiddenField_{{ forloop.counter }}" value="{{ ticket_level.price }}">
-                                                <td>
-                                                    <input type="radio" id="{{ ticket_level.id }}" name="options" value="{{ ticket_level.id }}">
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
+                                <table class="table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Select</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for ticket_level in ticket_levels %}
+                                        <tr>
+                                            <td>{{ ticket_level.name }}</td>
+                                            <input type="hidden" name="name_{{ ticket_level.id }}" value="{{ ticket_level.name }}">
+                                            <td>{{ ticket_level.price }}</td>
+                                            <input type="hidden" name="price_{{ ticket_level.id }}" value="{{ ticket_level.price }}">
+                                            <td>
+                                                <input type="checkbox" id="checkbox_{{ ticket_level.id }}" name="options" value="{{ ticket_level.id }}" onchange="toggleQuantityInput(this)">
+                                            </td>
+                                            <td>
+                                                <input type="number" id="quantity_{{ ticket_level.id }}" class="quantity-input" name="quantity_{{ ticket_level.id }}" min="1" placeholder="Quantity">
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <div class="payment-buttons">
+                                    <button style="background-color: #092e50;" type="submit" class="btn btn-success">Checkout</button>
                                     <div class="total-amount">
-                                        <!-- Total: <span id="total-amount">(You can see in Next Page)</span> -->
+                                        <a href="{% url 'checkout' event.id %}" style="color: #092e50;"><strong>Buy One</strong></a>
                                     </div>
-                                    <div class="payment-buttons">
-                                        <button style="background-color: #092e50;" type="submit" class="btn btn-success">Checkout</button>
-                                        <div class="total-amount">
-                                            <a href="{% url 'checkout' event.id %}" style="color: #092e50;"><strong>Buy One</strong></a>
-                                        </div>
-                                    </div>
-                                    
-                                </form>
+                                </div>
                             </div>
+                            
+
+                            <style>
+                                .payment-buttons {
+                                    display: flex;
+                                    align-items: center;
+                                }
+                                .total-amount {
+                                    margin-left: 20px;
+                                }
+                                @media (max-width: 575px) {
+                                    .payment-buttons {
+                                        flex-direction: column;
+                                    }
+                                    .total-amount {
+                                        margin-left: 0;
+                                        margin-top: 10px;
+                                        text-align: center;
+                                    }
+                                }
+                            </style>
+                            
                         </div>
-                        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
 
+<script>
+    function toggleQuantityInput(checkbox) {
+        const quantityInput = document.getElementById('quantity_' + checkbox.value);
+        if (checkbox.checked) {
+            quantityInput.style.display = 'inline';
+            quantityInput.required = true;
+        } else {
+            quantityInput.style.display = 'none';
+            quantityInput.required = false;
+            quantityInput.value = ''; // Reset quantity if checkbox is unchecked
+        }
+    }
+</script>
 {% endblock content %}

@@ -24,22 +24,33 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+
+#we can get the this also as a member passes
 class TicketLevel(models.Model):
+    # STATUS_CHOICES = [
+    #     (1, 'Default Pass'),
+    #     (2, 'Member Pass'),
+
+    # ]
+    owner = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
     created = models.DateTimeField(default=timezone.now)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    # status = models.IntegerField(choices=STATUS_CHOICES, default=1)
 
     def __str__(self):
         return f"{self.name} for {self.event}"
 
 
+
 def qr_code_upload_path(instance, filename):
     # Generates the upload path: qr_codes/ticket_level/<filename>
     return f'qr_codes/{instance.ticket_level}/{filename}'
-class Ticket(models.Model):
+class Ticket(models.Model): 
     STATUS_CHOICES = [
         (1, 'Available'),
         (2, 'Assigned'),
@@ -67,3 +78,5 @@ class Ticket(models.Model):
 
     def __str__(self):
         return str(self.id)
+    
+    

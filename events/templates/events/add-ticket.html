@@ -12,6 +12,14 @@
                 <div class="card-body">
                     <form method="POST">
                         {% csrf_token %}
+                        <label for="">Event:</label>
+                        <select id="event" name="event" class="form-select mb-3" >
+                            {% for event in events %}
+                                <option value="{{ event.id }}">{{ event.name }}</option>
+                            {% endfor %}
+                          </select>     
+                            
+                        </select>
                         {% for field in form %}
                             <div class="mb-3">
                                 {{ field.label_tag }}

@@ -1,4 +1,70 @@
-<h1>order successfully placed . number : {{order.order_id}}</h1>
-<img src="{{order.qr_code.qr_code.url}}" alt="">
-<hr>
-<a href="{% url 'events' %}">Back</a>
+{% extends 'ui-2/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <style>
+        .container-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .qr-code img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .download-button button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .download-button button:hover {
+            background-color: #0056b3;
+        }
+        successful-title {
+            margin-bottom: 30px;
+        }
+    </style>
+
+    <div class="container-card">
+        <div class="mt-5">
+            <h2 class="successful-title">Order successfully placed. Number: {{ order.order_id }}</h1>
+        </div>
+        
+        <div class="qr-code">
+            {% if page == 'order-success' %}
+
+            <img src="{{ order.qr_code.qr_code.url }}" alt="QR Code">
+
+            {% else %}
+
+                {% for qr in qrs %}
+
+                    <img src="{{ qr.url }}" alt="QR Code">
+
+                {% endfor %}
+
+            {% endif %}
+        </div>
+        <div class="download-button mb-3">
+            <a href="{% url 'events' %}">
+                <button style="background-color: gray;">Back</button>
+            </a>
+            <a href="{{ order.qr_code.qr_code.url }}" download="order_{{ order.order_id }}_qr_code.png">
+                <button>Download QR Code</button>
+            </a>
+        </div>
+
+    </div>
+
+    
+    {% endblock content %}

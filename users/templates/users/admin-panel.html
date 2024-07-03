@@ -4,41 +4,32 @@
 
 {% block content %}
 
-<div class="row m-5 mb-1 justify-content-center">
-  <div class="col-3">
-    <h1>EVENTS</h1>
-  </div>
-  <hr>
-</div>
-
-<div class="m-4">
-<div class="row row-cols-1 row-cols-md-3 g-4 mb-5 ">
-
-  {% for event in events %}
-  <div class="col">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{ event.featured_image.url }}" alt="Card image cap" style="height: 200px; object-fit: cover;" />
-      <div class="card-body">
-        <div class="row justify-content-center">
-          <div class="col text-center">
-            <h5 class="card-title">{{ event.title }}</h5>
-          </div>
-        </div>
-
-            <p class="card-text">
-              {{ event.description|slice:100 }}...
-            </p>
-            <a href="{% url 'update-event' event.id %}" class="btn btn-secondary">Edit</a>
-            <a style="background-color: red;" href="{% url 'delete-event' event.id %}" class="btn btn-secondary">Delete</a>
-      </div>
+<div class="container-fluid">
+  <div class="row m-5 mb-1 justify-content-center">
+    <div class="col-12">
+      <h1 class="text-center">EVENTS</h1>
+      <hr>
     </div>
   </div>
-{% endfor %}
 
-
+  <div class="row m-4">
+    {% for event in events %}
+    <div class="col-12 col-md-4 mb-4">
+      <div class="card h-100">
+        <img class="card-img-top" src="{{ event.featured_image.url }}" alt="Event Image" style="height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title text-center">{{ event.title }}</h5>
+          <p class="card-text">{{ event.description|truncatechars:100 }}</p>
+          <div class="text-center">
+            <a href="{% url 'update-event' event.id %}" class="btn btn-secondary mx-2">Edit</a>
+            <a href="{% url 'delete-event' event.id %}" class="btn btn-secondary mx-2" style="background-color: red;">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 
 </div>
-</div>
-
 
 {% endblock content %}

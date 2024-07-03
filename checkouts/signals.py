@@ -26,8 +26,8 @@ def send_order_confirmation_email(sender, instance, created, **kwargs):
         send_order_email(instance)
 
 def send_order_email(order_instance):
-    email_sender = "developer.udithsandaruwan@gmail.com"  # Replace with your email
-    email_password = "fvcs gpoi vxwz roku"  # Replace with your email password or use environment variables
+    email_sender = "quotexworkspace0@gmail.com"  # Replace with your email
+    email_password = "mjlw vvsy mtpc bqfp"  # Replace with your email password or use environment variables
     email_receiver = order_instance.email
     email_subject = "Your Order Confirmation"
     email_body = f"Dear {order_instance.first_name},\n\nThank you for your order. Please find your ticket attached."

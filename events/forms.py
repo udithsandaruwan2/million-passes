@@ -2,7 +2,8 @@ from urllib import request
 from django.forms import ModelForm
 from django import forms
 
-from .models import Event
+from .models import Event, TicketLevel
+from users.models import TeamMember
 
 class EventForm(ModelForm):
     class Meta:
@@ -32,3 +33,42 @@ class EventForm(ModelForm):
             {'class': 'form-control'}
         )
         
+class TicketLevelForm(ModelForm):
+    class Meta:
+        model = TicketLevel
+        fields = ['name', 'price', 'quantity']
+        
+    def __init__(self, *args, **kwargs):
+        super(TicketLevelForm, self).__init__(*args, **kwargs)
+
+        self.fields['name'].widget.attrs.update(
+            {'class': 'form-control'}
+        )
+        
+        self.fields['price'].widget.attrs.update(
+            {'class': 'form-control'}
+        )
+        
+        self.fields['quantity'].widget.attrs.update(
+            {'class': 'form-control'}
+        )
+
+class TeamMemberForm(ModelForm):
+    class Meta:
+        model = TeamMember
+        fields = ['name', 'email', 'idn']
+        
+    def __init__(self, *args, **kwargs):
+        super(TeamMemberForm, self).__init__(*args, **kwargs)
+
+        self.fields['name'].widget.attrs.update(
+            {'class': 'form-control'}
+        )
+        
+        self.fields['email'].widget.attrs.update(
+            {'class': 'form-control'}
+        )
+        
+        self.fields['idn'].widget.attrs.update(
+            {'class': 'form-control'}
+        )

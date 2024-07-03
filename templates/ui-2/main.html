@@ -43,7 +43,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   
 </head>
 
 <body>
@@ -64,19 +65,27 @@
 
 {% endif %}
 
+{% if page != 'order-success' and page != 'scan' %}
+
+
         {% include 'ui-2/navbar.html' %}
 
-        {% if page != 'about' and page != 'single-event' and page != 'checkout' and page != 'payment' %}
+        {% if page != 'about' and page != 'single-event' and page != 'checkout' and page != 'payment' and page != 'multi-payment' %}
 
             {% include 'ui-2/hero.html' %}
 
+        {% endif %}
         {% endif %}
 
         {% block content %}
 
         {% endblock content %}
+    
+        {% if page != 'scan' %}
 
         {% include 'ui-2/footer.html' %}
+
+        {% endif %}
 
     </main>
         <!-- ===============================================-->
@@ -95,6 +104,9 @@
     <script src="{% static 'ui-kit-2/build/assets/js/theme.js' %}"></script>
 
     <script src="{% static 'js/custom.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 

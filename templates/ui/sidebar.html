@@ -4,7 +4,7 @@
     <div class="app-brand demo">
       <a href="{% url 'admin' %}" class="">
         
-        <span class="app-brand-text demo menu-text fw-bolder ms-2">Floak</span>
+        <span class="app-brand-text demo menu-text fw-bolder ms-2">MILLIONPASSES</span>
       </a>
 
       <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -30,11 +30,25 @@
     </li>
 
     <li class="menu-item {% if page == 'tickets' %} active {% endif %}">
-        <a href="" class="menu-link">
+        <a href="{% url 'tickets' %}" class="menu-link">
             <i class="menu-icon fas fa-ticket"></i>
             <div data-i18n="Analytics">Tickets</div>
         </a>
     </li>
+
+    <li class="menu-item {% if page == 'passes' %} active {% endif %}">
+      <a href="{% url 'passes' %}" class="menu-link">
+          <i class="menu-icon fas fa-id-card"></i>
+          <div data-i18n="Analytics">Passes</div>
+      </a>
+  </li>
+
+    <li class="menu-item {% if page == 'bulk-download' %} active {% endif %} ">
+      <a href="{% url 'download_qr_codes' %}" class="menu-link">
+          <i class="menu-icon fas fa-download"></i>
+          <div data-i18n="Analytics">Bulk Download</div>
+      </a>
+  </li>
     
     
     </ul>

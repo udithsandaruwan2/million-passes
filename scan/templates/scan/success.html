@@ -1,3 +1,22 @@
+<!-- templates/scan/success.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Success</title>
+</head>
+<body>
+    <h1>Scan Successful!</h1>
+    <p>QR Code Data: {{ qr_data }}</p>
+    <script>
+        setTimeout(function() {
+            window.location.href = "{% url 'scan_view' %}";
+        }, 3000);  // 2000 milliseconds = 2 seconds
+    </script>
+</body>
+</html> -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,12 +27,12 @@
     <p>Ticket ID: {{ qr_code.ticket_id }}</p>
     <p>Ticket Level: {{ qr_code.ticket_level }}</p>
     <p>Event: {{ qr_code.event }}</p>
-    <p>Price: {{ qr_code.price }}</p>
+    <!-- <p>Price: {{ qr_code.price }}</p> -->
 
     <script>
         setTimeout(function() {
-            window.location.href = "{% url 'scan_view' %}";
-        }, 3000);  // 2000 milliseconds = 2 seconds
+            window.location.href = "{% url 'scan_view' %}";  // Redirect to the home page or any other desired page
+        }, 3000);  // 3000 milliseconds = 3 seconds
     </script>
 </body>
 </html>

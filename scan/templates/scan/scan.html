@@ -1,14 +1,101 @@
-<!DOCTYPE html>
-<html>
+{% extends 'ui-2/main.html' %}
+
+{% load static %}
+
+{% block content %}
 <head>
-    <title>QR Code Scanner</title>
+    <style>
+        /* General body styling */
+
+
+        /* Main container styling */
+        main {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    margin: 20px; /* Add margin around the main container */
+    width: calc(100% - 40px); /* Calculate full width minus margins */
+    max-width: 800px; /* Limit maximum width */
+    height: 100vh; /* Set height to full viewport height */
+}
+
+
+        /* QR Code reader styling */
+        #reader {
+            width: 100%;
+            max-width: 600px;
+            height: 400px; /* Adjust height as needed */
+            margin-bottom: 20px;
+        }
+
+        /* Result text styling */
+        #result {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #333333;
+        }
+    </style>
 </head>
-<body>
-    <h1>QR Code Scanner</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Scan</button>
-    </form>
-</body>
-</html>
+
+<main>
+    <div id="reader"></div>
+    <div id="result"></div>
+</main>
+
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    const csrftoken = getCookie('csrftoken');
+
+    const scanner = new Html5QrcodeScanner('reader', { 
+        qrbox: { width: 400, height: 400 }, // Increase width and height for larger reader
+        fps: 20,
+    });
+
+    scanner.render(success, error);
+
+    function success(result) {
+        fetch('/scan_checking.../', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({ data: result })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Redirect to the success page
+                window.location.href = data.redirect_url + '?qr_data=' + encodeURIComponent(data.qr_data);
+            }
+        })
+        .catch((error) => console.error('Error:', error));
+
+        scanner.clear();
+        document.getElementById('reader').remove();
+    }
+
+    function error(err) {
+        console.error(err);
+    }
+</script>
+{% endblock content %}

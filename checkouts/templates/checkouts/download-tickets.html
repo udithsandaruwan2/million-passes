@@ -1,0 +1,36 @@
+{% extends 'ui/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row justify-content-center m-3 mt-5"> <!-- Center the card within the row -->
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <h5 class="card-header">Default</h5>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <label for="ticketLevel" class="form-label">Ticket Level:</label>
+                    <select id="ticketLevel" name="ticketLevel" class="form-select">
+                        {% for ticket_level in ticket_levels %}
+                            <option value="{{ ticket_level.id }}">{{ ticket_level.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <label for="quantity" class="form-label">Quantity:</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" min="1" required />
+                    <br>
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <button class="btn btn-primary" type="submit">Download QR Codes</button>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

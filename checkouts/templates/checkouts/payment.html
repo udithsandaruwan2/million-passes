@@ -44,16 +44,49 @@
                         
                     </div>
                     <div class="booking-summary">
-                        <h3>Booking Summary</h3>
-                        <p id="summary"></p>
-                        <strong><p style="font-size: large;">Total: <span id="total-payment">{{ ticket.price }} LKR</span></p></strong>
+                        <h3 class="mt-4">Booking Summary</h3>
+                        <p id="summary">
+
+
+
+                            <table id="ticketTable" class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Qty</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ticketTableBody">
+                                    {% if page == 'payment' %}
+                                    <!-- Table body will be populated dynamically -->
+                                 
+                                        <td>{{ ticket.id }}</td>
+                                        <td>{{ ticket.price }}</td>
+                                        <td>1</td>
+                                        <td>{{ ticket.price }}</td>
+                              
+                                    {% endif %}
+
+                                </tbody>
+                            </table>
+
+
+
+
+
+
+                            
+                        </p>
+                        <strong><p style="font-size: large;">Total: <span id="total-payment"> {% if ticket.price %} {{ ticket.price }} {% else %} {{ total_price }} {% endif %} LKR</span></p></strong>
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="terms" required>
                             <label class="form-check-label" for="terms">I accept and agree to Terms and Conditions</label>
                         </div>
                     </div>
                     <div class="payment-buttons">
-                        <a style="background-color: transparent; color: #092e50;border: none; box-shadow: none;" href="{% url 'checkout' event.id %}" id="back-button" class="btn btn-secondary P-2">Back</a>
+                        <a style="background-color: transparent; color: #092e50;border: none; box-shadow: none;" href=" {% if page == 'multi-payment' %} {% url 'multi-checkout' event.id %} {% else %} {% url 'checkout' event.id %} {% endif %}" id="back-button" class="btn btn-secondary P-2">Back</a>
                         <button style="background-color: #092e50;" type="submit" id="proceed-button" class="btn btn-success P-1 " disabled>Proceed to Pay</button>
                     </div>
                 </form>
@@ -63,10 +96,57 @@
     </div>
 </div>
 
+
+<script>
+    // Accessing selected_tickets_json passed from Django view
+    var selected_tickets_json = '{{ selected_tickets|safe }}'; // Use safe filter to avoid escaping JSON
+
+    // Parse the JSON string into a JavaScript array of objects
+    var selectedTickets = JSON.parse(selected_tickets_json);
+
+    // Get the tbody element where we will append rows
+    var tbody = document.getElementById('ticketTableBody');
+
+    // Iterate over each ticket in selectedTickets array
+    selectedTickets.forEach(function(ticket) {
+        // Create a new row element
+        var row = document.createElement('tr');
+
+        // Create and append td elements for each property
+        var categoryCell = document.createElement('td');
+        categoryCell.textContent = ticket.ticket_name; // Replace with actual category data
+        row.appendChild(categoryCell);
+
+        var priceCell = document.createElement('td');
+        priceCell.textContent = ticket.price; // Replace with actual price data
+        row.appendChild(priceCell);
+
+        var qtyCell = document.createElement('td');
+        qtyCell.textContent = ticket.quantity; // Replace with actual quantity data
+        row.appendChild(qtyCell);
+
+        var amountCell = document.createElement('td');
+        amountCell.textContent = (ticket.price * ticket.quantity).toFixed(2); // Calculate and format amount
+        row.appendChild(amountCell);
+
+        // Append the row to the tbody
+        tbody.appendChild(row);
+    });
+</script>
+
 <script>
     document.getElementById('terms').addEventListener('change', function() {
         document.getElementById('proceed-button').disabled = !this.checked;
     });
+
+
+
+
+
+
+
+
+
 </script>
 
 {% endblock content %}

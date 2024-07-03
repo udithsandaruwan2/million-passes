@@ -10,6 +10,15 @@
       <h2 class="mx-auto text-center fs-lg-6 fs-md-5 w-lg-75">Enjoy the current moment without hesitation.</h2>
       <div class="row justify-content-center gx-xl-7 mt-5">
         
+
+
+
+
+
+
+
+
+
         {% for event in events %}
         <div class="col-lg-3 col-md-4 mb-6 mb-md-0 d-flex flex-column align-items-center text-center text-md-center m-5">
           <a href="{% url 'single-event' event.id %}" style="color: #000;">
@@ -22,6 +31,16 @@
           <a class="text-dark fs-1 pb-2 fw-bold border-black border-bottom text-decoration-none" href="{% url 'single-event' event.id %}" style="color: #000;">Buy Now <i class="fa-solid fa-arrow-right ms-2"></i></a>
         </div>
         {% endfor %}
+
+
+
+
+
+
+
+
+
+        
       </div>
     </div><!-- end of .container-->
 </section>
