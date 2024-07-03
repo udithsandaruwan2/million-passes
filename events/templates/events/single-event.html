@@ -71,6 +71,11 @@
                 if (distance < 0) {
                     clearInterval(x);
                     document.getElementById("countdown").innerText = "EXPIRED";
+                    var link = document.getElementById("my-link");
+        link.classList.add("disabled-link");
+        link.addEventListener("click", function(event) {
+            event.preventDefault();
+        });
                 }
             }, 1000);
         });
@@ -553,7 +558,9 @@ margin-left: 5px;
     font-weight: bold; /* Added font-weight */
 }
 
-
+.disabled-link {
+            display: none;/* Remove underline to indicate it is disabled */
+        }
 
  </style>
 
@@ -610,7 +617,7 @@ margin-left: 5px;
           {% endfor %}
 
         </ul>
-        <a style="background-color: rgb(10, 38, 64); " class="btn btn-light text-white  mt-4" href="{% url 'checkout' event.id %}">Buy Now</a>
+        <a id="my-link" style="background-color: rgb(10, 38, 64); " class="btn btn-light text-white  mt-4" href="{% url 'checkout' event.id %}">Buy Now</a>
     </div>
     </div>
   </div>
