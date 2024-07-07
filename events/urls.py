@@ -19,4 +19,7 @@ urlpatterns = [
     path('update-member/<str:pk>/', views.updateTeamMembers, name="update-member"),
     path('delete-member/<str:pk>/', views.deleteTeamMember, name="delete-member"),
     
+    path('add-pass/', views.addMemberPass, name="add-member-pass"),
+    path('delete-pass/<str:pk>/', views.deleteMemberPass, name="delete-member-pass"),
+    
 ]

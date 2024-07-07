@@ -2,7 +2,7 @@ from urllib import request
 from django.forms import ModelForm
 from django import forms
 
-from .models import Event, TicketLevel
+from .models import Event, TicketLevel, MemberPass
 from users.models import TeamMember
 
 class EventForm(ModelForm):
@@ -70,5 +70,17 @@ class TeamMemberForm(ModelForm):
         )
         
         self.fields['idn'].widget.attrs.update(
+            {'class': 'form-control'}
+        )
+        
+class MemberPassForm(ModelForm):
+    class Meta:
+        model = MemberPass
+        fields = ['quantity']
+        
+    def __init__(self, *args, **kwargs):
+        super(MemberPassForm, self).__init__(*args, **kwargs)
+
+        self.fields['quantity'].widget.attrs.update(
             {'class': 'form-control'}
         )

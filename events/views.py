@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Event
 from .utils import searchEvents
-from .forms import EventForm, TicketLevelForm, TeamMemberForm
+from .forms import EventForm, TicketLevelForm, TeamMemberForm, MemberPassForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from users.models import Profile, TeamMember
-from .models import TicketLevel 
+from .models import TicketLevel , MemberPass
 
 
 def blankPage(request):
@@ -93,8 +93,7 @@ def passesPage(request):
     page = 'passes'
     profile = request.user.profile
     team_members = TeamMember.objects.filter(organizer=profile)
-    ticket_levels = TicketLevel.objects.filter(owner=profile)
-    context = {'page': page, 'ticket_levels': ticket_levels, 'team_members':team_members}
+    context = {'page': page, 'team_members':team_members}
     return render(request, 'events/passes.html', context)
 
 
@@ -191,12 +190,50 @@ def deleteTeamMember(request, pk):
 @login_required(login_url="login")
 def deleteTicket(request, pk):
     page = 'delete-ticket'
-    # ticket = get_object_or_404(TicketPrice, id=pk)
+    ticket = get_object_or_404(TicketLevel, id=pk)
     
-    # if request.method == 'POST':
-    #     ticket.delete()
-    #     messages.success(request, 'Tickets deleted successfully!')
-    #     return redirect('tickets')
+    if request.method == 'POST':
+        ticket.delete()
+        messages.success(request, 'Tickets deleted successfully!')
+        return redirect('tickets')
 
-    # context = {'page': page, 'ticket': ticket}
-    return render(request, 'events/delete-ticket.html')
+    context = {'page': page, 'ticket': ticket}
+    return render(request, 'events/delete-ticket.html', context)
+
+
+@login_required(login_url="login")
+def deleteMemberPass(request, pk):
+    page = 'delete-member-pass'
+    member_pass = get_object_or_404(MemberPass, id=pk)
+    
+    if request.method == 'POST':
+        member_pass.delete()
+        messages.success(request, 'Passes deleted successfully!')
+        return redirect('passes')
+
+    context = {'page': page, 'member_pass': member_pass}
+    return render(request, 'events/delete-member-pass.html', context)
+
+
+@login_required(login_url="login")
+def addMemberPass(request):
+    page = 'add-member-pass'
+    profile = request.user.profile
+
+    team_members = TeamMember.objects.filter(organizer=profile)
+
+    form = MemberPassForm() 
+    if request.method == 'POST':
+        form = MemberPassForm(request.POST)
+        member = request.POST.get('member')
+        if form.is_valid():
+            member_pass = form.save(commit=False)
+            member = TeamMember.objects.get(id=member)
+            member_pass.owner = member
+            member_pass.save()
+            messages.success(request, 'Member pass added successfully!')
+            return redirect('passes')
+
+    context = {'page': page, 'form': form, 'team_members':team_members}
+    return render(request, 'events/add-pass.html', context)
+

@@ -6,35 +6,37 @@
   <div class="container">
     <div class="row justify-content-between">
       <div class="col-lg-6 col-sm-12 text-center">
-        <a href="index.html"><img class="img-fluid mt-5 mb-4" src="{% static 'ui-kit-2/build/assets/img/Logo-1.png' %}" alt="" /></a>
-        <p class="w-lg-75 text-gray">Social media validation business model canvas graphical user interface launch party creative facebook iPad twitter.</p>
+        <a href="index.html"><img class="img-fluid mt-5 mb-4" src="{% static 'ui-kit-2/build/assets/img/2.png' %}" alt="" /></a>
+        <p class="w-lg-75 text-gray">
+          Empowering seamless event experiences through our intuitive ticketing system.( BUY - SCAN - ENJOY )</p>
       </div>
-      <div class="col-lg-2 col-sm-4 text-center">
-        <h3 class="fw-bold fs-1 mt-5 mb-4">Landings</h3>
-        <ul class="list-unstyled">
-          <li class="my-3"><a href="#">Home</a></li>
-          <li class="my-3"><a href="#">Products</a></li>
-          <li class="my-3"><a href="#">Services</a></li>
-        </ul>
-      </div>
+      
       <div class="col-lg-2 col-sm-4 text-center">
         <h3 class="fw-bold fs-1 mt-5 mb-4">Company</h3>
         <ul class="list-unstyled">
-          <li class="my-3"><a href="#">Home</a></li>
-          <li class="my-3"><a href="#">Careers</a><span class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2">Hiring!</span></li>
-          <li class="my-3"><a href="#">Services</a></li>
+          <li class="my-3"><a href="{% url 'events' %}">Home</a></li>
+          <li class="my-3"><a href="{% url 'about' %}">About</a></li>
+
         </ul>
       </div>
       <div class="col-lg-2 col-sm-4 text-center">
         <h3 class="fw-bold fs-1 mt-5 mb-4">Resources</h3>
         <ul class="list-unstyled">
-          <li class="mb-3"><a href="#">Home</a></li>
-          <li class="mb-3"><a href="#">Products</a></li>
-          <li class="mb-3"><a href="#">Services</a></li>
+          <li class="my-3"><a href="#">Blogs</a></li>
         </ul>
       </div>
+
+      <div class="col-lg-2 col-sm-4 text-center">
+        <h3 class="fw-bold fs-1 mt-5 mb-4">Landings</h3>
+        <ul class="list-unstyled">
+          <li class="my-3"><a href="{% url 'events' %}">Events</a></li>
+          <li class="my-3"><a href="{% url 'login' %}">Login</a></li>
+          <li class="my-3"><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+      </div>
+      
     </div>
-    <p class="text-gray text-center">All rights reserved.</p>
+    <p class="text-gray text-center mt-4">All rights reserved. <br> Developed By <a style="color: blue;" href="https://www.linkedin.com/in/udithsandaruwan/">Udith Sandaruwan</a>.</p>
   </div><!-- end of .container-->
 </section><!-- <section> close ============================-->
 

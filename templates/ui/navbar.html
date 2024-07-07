@@ -11,9 +11,15 @@
             </div>
 
 
-            {% if page != 'add-event' and page != 'update-event' and page != 'delete-event' and page != 'add-ticket' and page != 'delete-ticket' and page != 'bulk-download' and page != 'add-team-member' and page != 'update-team-member' and page != 'delete-team-member' %}
+            {% if page != 'add-event' and page != 'update-event' and page != 'delete-event' and page != 'add-ticket' and page != 'delete-ticket'  and page != 'add-team-member' and page != 'update-team-member' and page != 'delete-team-member' and page != 'add-member-pass' and page != 'delete-member-pass' %}
 
-              <!-- Search -->
+            <div class="navbar-nav align-items-center">
+              <div class="nav-item d-flex align-items-center">
+                <span class="navbar-brand fs-4 lh-0">Million Passes</span>
+              </div>
+            </div>
+            
+              <!-- Search
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
                   <i class="bx bx-search fs-4 lh-0"></i>
@@ -29,7 +35,7 @@
                   </form>
                   
                 </div>
-              </div>
+              </div> -->
               <!-- /Search -->
 
               {% else %}
@@ -38,7 +44,7 @@
 
                     <a href="{% url 'tickets' %}">
 
-                    {% elif page == 'add-team-member' or page == 'update-team-member' or page == 'delete-team-member' %}
+                    {% elif page == 'add-team-member' or page == 'update-team-member' or page == 'delete-team-member' or page == 'add-member-pass' or page == 'delete-member-pass' %}
 
                     <a href="{% url 'passes' %}">
 

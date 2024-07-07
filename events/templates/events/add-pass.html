@@ -1,0 +1,46 @@
+{% extends 'ui/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-8 col-sm-10 col-xs-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Add Member</h5>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <label for="">Member:</label>
+                        <select id="member" name="member" class="form-select mb-3" >
+                            {% for member in team_members %}
+                                <option value="{{ member.id }}">{{ member.name }}</option>
+                            {% endfor %}
+                        </select>     
+                        {% for field in form %}
+                            <div class="mb-3">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% if field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="mt-4">
+                            <a href="{% url 'passes' %}" class="btn btn-secondary">Back</a>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
