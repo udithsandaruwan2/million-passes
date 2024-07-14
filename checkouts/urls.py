@@ -13,5 +13,8 @@ urlpatterns = [
     
     path('download-qr-codes/', views.download_qr_codes, name='download_qr_codes'),
     
-
+    path('download-qr-codes/', views.download_qr_codes, name='download_qr_codes'),
+    
+    path('pay/<str:pk>/', views.paymentGateway, name='payment-gateway'),
+    
 ]

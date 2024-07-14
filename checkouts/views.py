@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from urllib.parse import urlencode
 import json
 import urllib.parse
-
+from .utils import send_order_email
 
 
 @login_required(login_url="login")
@@ -59,7 +59,7 @@ def paymentPage(request, pk):
             order.ticket_level = ticket_level
             order.stripe_payment_token = 'sample_token'
             order.save()
-            return redirect('order-success-massage', order)
+            return redirect('payment-gateway', order.id)
             
     ticket = get_object_or_404(TicketLevel, id=pk)
     event = ticket.event
@@ -254,3 +254,23 @@ def multiCheckoutPage(request, pk):
 
     context = {'page': page, 'event': event, 'ticket_levels': ticket_levels}
     return render(request, 'checkouts/multi-checkout-page.html', context)
+
+
+from django.shortcuts import render
+
+def paymentGateway(request, pk):
+    
+    order = Order.objects.get(id=pk)
+    
+    if request.method == "POST":
+        card_number = request.POST.get('number-input')  # Replace 'number-input' with the actual name of your input field
+        card_number = str(card_number)
+        if card_number:
+            if card_number == "0000-0000-0000-0000":
+                send_order_email(order)
+                return redirect('order-success-massage', order)
+
+        
+        # Add your payment processing logic here
+
+    return render(request, 'checkouts/payment-gateway.html')

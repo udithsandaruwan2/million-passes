@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Gateway</title>
+    <link rel="stylesheet" href="{% static 'styles/payment-gateway.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+</head>
+<body>
+    <div class="card mt-50 mb-50">
+        <div class="card-title mx-auto m-0">
+            <a href="index.html"><img class="img-fluid mt-5 mb-4" src="{% static 'ui-kit-2/build/assets/img/2.png' %}" alt="" /></a>
+        </div>
+        <div class="nav mb-0">
+            
+            <ul class="mx-auto">
+                <!-- <li><a href="#">Account</a></li> -->
+                <li class="active"><a href="#">Pay Now</a></li>
+            </ul>        
+        </div>
+        <div class="row justify-content-center" style="margin-top: -25px;">
+            <div class="col-2"><img class="img-fluid" src="https://img.icons8.com/color/48/000000/visa.png"/></div>
+            <div class="col-2"><img class="img-fluid" src="https://img.icons8.com/color/48/000000/mastercard-logo.png"/></div>
+        </div>
+        <form method="POST">
+
+            {% csrf_token %}
+    
+    <div class="row-1 mt-4">
+        <div class="row row-2">
+            <span id="card-inner">Card holder name</span>
+        </div>
+        <div class="row row-2">
+            <input type="text" placeholder="Udith Sandaruwan">
+        </div>
+    </div>
+    <div class="row-1">
+        <div class="row row-2">
+            <span id="card-inner">Card number</span>
+        </div>
+        <div class="row row-2">
+            <input type="text" id="number-input" name="number-input" placeholder="0000-0000-0000-0000" maxlength="19">
+        </div>
+    </div>
+    <div class="row-1">
+        <div class="row row-2">
+            <div class="col-6">
+                <span id="card-inner">Expiry date</span>
+                <input type="text" id="date-input" placeholder="MM/YY" maxlength="5">
+            </div>
+            <div class="col-6">
+                <span id="card-inner">CVV</span>
+                <input type="text" id="number-input" placeholder="000" maxlength="3">
+            </div>
+        </div>
+    </div>
+    <button class="btn d-flex mx-auto mt-5"><b>PAY</b></button>
+</form>
+
+    </div>
+     <!-- jQuery -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+     <!-- Bootstrap Bundle JS -->
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+     <script>
+        const cardNumberInput = document.getElementById('number-input');
+        cardNumberInput.addEventListener('input', (event) => {
+          let value = event.target.value;
+      
+          // Remove non-numeric characters
+          value = value.replace(/\D/g, '');
+      
+          // Limit to 16 digits (typical card number length)
+          value = value.slice(0, 16);
+      
+          // Add hyphens after every 4 digits
+          const formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1-');
+      
+          // Set the formatted value back to the input field
+          event.target.value = formattedValue;
+        });
+      
+        cardNumberInput.addEventListener('keypress', (event) => {
+          // Prevent non-numeric input
+          if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+        });
+      
+        const expiryDateInput = document.getElementById('date-input');
+        expiryDateInput.addEventListener('input', (event) => {
+          let value = event.target.value;
+      
+          // Remove non-numeric characters except slash
+          value = value.replace(/[^0-9]/g, '');
+      
+          // Limit to MM/YY format (5 characters)
+          value = value.slice(0, 5);
+      
+          // Add slash after two digits if necessary
+          if (value.length > 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2);
+          }
+      
+          // Set the formatted value back to the input field
+          event.target.value = value;
+        });
+      
+        expiryDateInput.addEventListener('keypress', (event) => {
+          // Prevent non-numeric input
+          if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+        });
+      
+        const cvvInput = document.getElementById('cvv-input');
+        cvvInput.addEventListener('input', (event) => {
+          let value = event.target.value;
+      
+          // Remove non-numeric characters
+          value = value.replace(/\D/g, '');
+      
+          // Limit to 3 digits (CVV length)
+          value = value.slice(0, 3);
+      
+          // Set the formatted value back to the input field
+          event.target.value = value;
+        });
+      
+        cvvInput.addEventListener('keypress', (event) => {
+          // Prevent non-numeric input
+          if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+        });
+      </script>
+      
+</body>
+</html>
