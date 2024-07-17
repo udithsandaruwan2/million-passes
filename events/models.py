@@ -46,6 +46,11 @@ class TicketLevel(models.Model):
         return f"{self.name} for {self.event}"
 
 
+import uuid
+
+def generate_uuid4():
+    return str(uuid.uuid4())
+
 
 def qr_code_upload_path(instance, filename):
     # Generates the upload path: qr_codes/ticket_level/<filename>
@@ -57,11 +62,12 @@ class Ticket(models.Model):
         (3, 'Used')
     ]
 
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    
     ticket_level = models.ForeignKey(TicketLevel, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     qr_code = models.ImageField(upload_to=qr_code_upload_path, blank=True)
     status = models.IntegerField(choices=STATUS_CHOICES, default=1)
+    id = models.UUIDField(default=generate_uuid4, unique=True, primary_key=True, editable=False)
     
     def save(self, *args, **kwargs):
         if not self.qr_code:
