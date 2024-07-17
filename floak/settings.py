@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 import sys
+# Add these at the top of your settings.py
+from os import getenv
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +49,7 @@ INSTALLED_APPS = [
     'scan.apps.ScanConfig',
     
     'djmoney',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -92,6 +97,21 @@ DATABASES = {
 }
 
 
+# Replace the DATABASES section of your settings.py with this
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': getenv('PGDATABASE'),
+#         'USER': getenv('PGUSER'),
+#         'PASSWORD': getenv('PGPASSWORD'),
+#         'HOST': getenv('PGHOST'),
+#         'PORT': getenv('PGPORT', 5432),
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#         },
+#     }
+# }
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -134,15 +154,24 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+load_dotenv()
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STRIPE_SECRET_KEY = 'ysk_test_51PPioyLCWfjJulOFMG0ficbdEf3uKKwi0ILVcuccH9uGdlH5xXwFon53Tlfjf3YwSknhUthOOmdXLwgYvFMdNTKN00CfoMedpE'
-STRIPE_PUBLIC_KEY = 'pk_test_51PPioyLCWfjJulOFGgtDKKy84OwG8Nx67JbHa4XhEwYazvAF8qgtpu5Vj0hbbVRrJaiNXR2J0IpWu99DovGNzgAw00naDtbZSs'
 
-
+if os.getcwd() == '/app':
+    DEBUG = False
