@@ -103,7 +103,6 @@ DATABASES = {
 # from dotenv import load_dotenv
 # load_dotenv()
 
-# Replace the DATABASES section of your settings.py with this
 # DATABASES = {
 #   'default': {
 #     'ENGINE': 'django.db.backends.postgresql',
